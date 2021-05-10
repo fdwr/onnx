@@ -496,9 +496,11 @@ void check_node(const NodeProto& node, const CheckerContext& ctx, const LexicalS
     fail_check("NodeProto (name: ", node.name(), ", type: ", node.op_type(), ") has zero input and zero output.");
   }
 
-  // If encounter experimental op, stop checking
+  // Stop checking if experimental op encountered, as the checker does not support them.
   if (check_is_experimental_op(node.op_type())) {
+    #ifndef NDEBUG
     std::cerr << "Warning: Checker does not support models with experimental ops: " << node.op_type() << std::endl;
+    #endif
     return;
   }
 
