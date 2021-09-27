@@ -3660,4 +3660,534 @@ ONNX_OPERATOR_SET_SCHEMA(
             propagateShapeFromInputToOutput(ctx, 0, 1);
           }
         }));
+
+
+template <typename T>
+static T get_scalar_value_from_tensor(const ONNX_NAMESPACE::TensorProto* t) {
+  if (t == nullptr) {
+    return T{};
+  }
+
+  auto data_type = t->data_type();
+  switch (data_type) {
+    case ONNX_NAMESPACE::TensorProto::FLOAT:
+      return static_cast<T>(ONNX_NAMESPACE::ParseData<float>(t).at(0));
+    case ONNX_NAMESPACE::TensorProto::DOUBLE:
+      return static_cast<T>(ONNX_NAMESPACE::ParseData<double>(t).at(0));
+    case ONNX_NAMESPACE::TensorProto::INT32:
+      return static_cast<T>(ONNX_NAMESPACE::ParseData<int32_t>(t).at(0));
+    case ONNX_NAMESPACE::TensorProto::INT64:
+      return static_cast<T>(ONNX_NAMESPACE::ParseData<int64_t>(t).at(0));
+    default:
+      fail_shape_inference("Unsupported input data type of ", data_type);
+  }
+}
+
+static const char* DFT_ver13_doc =
+    R"DOC(Computes the discrete Fourier transform of input.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(DFT,
+        13,
+        OpSchema()
+            .SetDoc(DFT_ver13_doc)
+            .Attr(
+                "onesided",
+                "If onesided is 1, only values for ω in [0, 1, 2, ..., floor(n_fft/2) + 1] are returned because "
+                "the real-to-complex Fourier transform satisfies the conjugate symmetry, i.e., X[m, ω] = X[m,ω]=X[m,n_fft−ω]*. "
+                "Note if the input or window tensors are complex, then onesided output is not possible. "
+                "Enabling onesided with real inputs performs a Real-valued fast Fourier transform (RFFT)."
+                "When invoked with real or complex valued input, the default value is 0. "
+                "Values can be 0 or 1.",
+                AttributeProto::INT,
+                static_cast<int64_t>(0))
+            .Input(
+                0,
+                "input",
+                "Input tensor representing a real or complex valued signal. "
+                "For real input, the following shape is expected: [batch_size][n_fft]. "
+                "For complex input, the following shape is expected: [batch_size][n_fft][2], where " 
+                "[batch_size][n_fft][0] represents the real component and [batch_size][n_fft][1] represents the imaginary component of the signal.",
+                "T",
+                OpSchema::Single,
+                true,
+                1,
+                OpSchema::NonDifferentiable)
+            .Output(
+                0,
+                "output",
+                "The discrete Fourier transform of input. "
+                "If onesided is 1, the output has the shape: [batch_size][floor(n_fft/2)+1][2]. " 
+                "If onesided is 0, the output has the shape: [batch_size][n_fft][2]"
+                "For all types of input, the last dimension of the output represents the components of a complex number.",
+                "T")
+            .TypeConstraint(
+                "T",
+                {"tensor(float16)", "tensor(float)", "tensor(double)"},
+                "Constrain input and output types to float tensors.")
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                propagateElemTypeFromInputToOutput(ctx, 0, 0);
+                // To support multidimensional DFT the signal_ndim may != 1
+                const int64_t batch_ndim = 1;
+                const int64_t component_ndim = 1;
+
+                // To support multidimensional DFT the signal_ndim may != 1,
+                // but this attribute is not included on the schema yet
+                const auto signal_ndim = 1;
+
+                // Add 1 dimensions to the rank for the batch size dimension
+                auto real_inputs_ndim = signal_ndim + batch_ndim;
+                // Add 2 dimensions to the rank for the batch size dimension AND component dimension
+                auto complex_inputs_ndim = signal_ndim + batch_ndim + component_ndim;
+
+                auto& input_shape = getInputShape(ctx, 0);
+                auto dim_size = static_cast<int64_t>(input_shape.dim_size());
+                auto is_real = dim_size == real_inputs_ndim;
+                auto is_complex = dim_size == complex_inputs_ndim;
+
+                ONNX_NAMESPACE::TensorShapeProto result_shape_proto = input_shape;
+                
+                bool is_onesided = static_cast<bool>(getAttribute(ctx, "onesided", 0));
+                if (is_onesided) {
+                    // Since signal_ndim = 1, and multidimensional DFT is not supported,
+                    // only the single signal dim (1) needs to be updated
+                    auto n_fft = input_shape.dim(1).dim_value();
+                    result_shape_proto.mutable_dim(1)->set_dim_value((n_fft >> 1) + 1);
+                }
+        
+                if (dim_size == real_inputs_ndim) {
+                    // For real input: the output is same shape, but with extra dim to represent complex output (real/imaginary)
+                    result_shape_proto.add_dim()->set_dim_value(2);  
+                } else if (dim_size == complex_inputs_ndim) {
+                    // For complex input: do nothing
+                } else {
+                    fail_shape_inference(
+                        "The input_shape must [batch_size][n_fft] for real values or [batch_size][n_fft][2] for complex values.")
+                }
+
+                updateOutputShape(ctx, 0, result_shape_proto);
+            }));
+
+static const char* IDFT_ver13_doc =
+    R"DOC(Computes the inverse discrete Fourier transform of input.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(IDFT,
+        13,
+        OpSchema()
+            .SetDoc(IDFT_ver13_doc)
+            .Input(
+                0,
+                "input",
+                "Input tensor representing a real or complex valued signal. "
+                "For real input, the following shape is expected: [batch_size][n_fft]. "
+                "For complex input, the following shape is expected: [batch_size][n_fft][2], where " 
+                "[batch_size][n_fft][0] represents the real component and [batch_size][n_fft][1] represents the imaginary component of the signal.",
+                "T",
+                OpSchema::Single,
+                true,
+                1,
+                OpSchema::NonDifferentiable)
+            .Output(
+                0,
+                "output",
+                "The inverse 1-dimensional discrete Fourier transform of the input. "
+                "The output tensor has the same shape and type as the input.",
+                "T",
+                OpSchema::Single,
+                true,
+                1,
+                OpSchema::NonDifferentiable)
+            .TypeConstraint(
+                "T",
+                {"tensor(float16)", "tensor(float)", "tensor(double)"},
+                "Constrain input and output types to float tensors.")
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                propagateElemTypeFromInputToOutput(ctx, 0, 0);
+                // To support multidimensional DFT the signal_ndim may != 1
+                const int64_t batch_ndim = 1;
+                const int64_t component_ndim = 1;
+                
+                // To support multidimensional DFT the signal_ndim may != 1,
+                // but this attribute is not included on the schema yet
+                const auto signal_ndim = 1;
+
+                // Add 1 dimensions to the rank for the batch size dimension
+                auto real_inputs_ndim = signal_ndim + batch_ndim;
+                // Add 2 dimensions to the rank for the batch size dimension AND component dimension
+                auto complex_inputs_ndim = signal_ndim + batch_ndim + component_ndim;
+
+                auto& input_shape = getInputShape(ctx, 0);
+                ONNX_NAMESPACE::TensorShapeProto result_shape = input_shape;
+
+                auto dim_size = static_cast<int64_t>(input_shape.dim_size());
+                if (dim_size == real_inputs_ndim) {
+                    // For real input: the output is same shape, but with extra dim to represent complex output (real/imaginary)
+                    result_shape.add_dim()->set_dim_value(2);
+                } else if (dim_size == complex_inputs_ndim) {
+                    // For complex input: do nothing
+                } else {
+                  fail_shape_inference(
+                        "The input_shape must [batch_size][n_fft] for real values or [batch_size][n_fft][2] for complex values.")
+                }
+
+                updateOutputShape(ctx, 0, result_shape);
+            }));
+
+static const char* HannWindow_ver13_doc =
+    R"DOC(Generate a Hann window.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(HannWindow,
+        13,
+        OpSchema()
+            .SetDoc(HannWindow_ver13_doc)
+            .Attr(
+                "output_datatype",
+                "The data type of the output tensor. "
+                "Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. "
+                "The default value is 1 = FLOAT. ",
+                AttributeProto::INT,
+                static_cast<int64_t>(TensorProto_DataType_FLOAT))
+            .Input(0,
+                   "size",
+                   "A scalar value indicating the length of the window.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Output(0,
+                   "output",
+                   "A Hann window with length: size. "
+                   "The output has the shape: [size].",
+                   "T2",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .TypeConstraint(
+                "T1",
+                {"tensor(int64)"},
+                "Constrain the input size to int64_t.")
+            .TypeConstraint(
+                "T2",
+                {"tensor(float)",
+                 "tensor(float16)",
+                 "tensor(double)",
+                 "tensor(uint8)",
+                 "tensor(uint16)",
+                 "tensor(uint32)",
+                 "tensor(uint64)",
+                 "tensor(int8)",
+                 "tensor(int16)",
+                 "tensor(int32)",
+                 "tensor(int64)"},
+                 "Constrain output types to numerical types.")
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                auto size = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(0));
+                if (size > 0) {
+                  ONNX_NAMESPACE::TensorShapeProto result_shape;
+                  result_shape.add_dim()->set_dim_value(size);
+                  updateOutputShape(ctx, 0, result_shape);
+                }
+        
+                propagateElemTypeFromAttributeToOutput(ctx, "output_datatype", 0);
+            }));
+
+
+static const char* HammingWindow_ver13_doc =
+    R"DOC(Generate a Hamming window.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(HammingWindow,
+        13,
+        OpSchema()
+            .SetDoc(HammingWindow_ver13_doc)
+            .Attr(
+                "output_datatype",
+                "The data type of the output tensor. "
+                "Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. "
+                "The default value is 1 = FLOAT. ",
+                AttributeProto::INT,
+                static_cast<int64_t>(TensorProto_DataType_FLOAT))
+            .Input(0,
+                   "size",
+                   "A scalar value indicating the length of the window.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Output(0,
+                   "output",
+                   "A Hamming window with length: size."
+                   "The output has the shape: [size].",
+                   "T2",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .TypeConstraint(
+                "T1",
+                {"tensor(int64)"},
+                "Constrain the input size to int64_t.")
+            .TypeConstraint(
+                "T2",
+                {"tensor(float)",
+                 "tensor(float16)",
+                 "tensor(double)",
+                 "tensor(uint8)",
+                 "tensor(uint16)",
+                 "tensor(uint32)",
+                 "tensor(uint64)",
+                 "tensor(int8)",
+                 "tensor(int16)",
+                 "tensor(int32)",
+                 "tensor(int64)"},
+                 "Constrain output types to numerical types.")
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                auto size = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(0));
+                if (size > 0) {
+                  ONNX_NAMESPACE::TensorShapeProto result_shape;
+                  result_shape.add_dim()->set_dim_value(size);
+                  updateOutputShape(ctx, 0, result_shape);
+                }
+        
+                propagateElemTypeFromAttributeToOutput(ctx, "output_datatype", 0);
+            }));
+
+static const char* BlackmanWindow_ver13_doc =
+    R"DOC(Generate a Blackman window.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(BlackmanWindow,
+        13,
+        OpSchema()
+            .SetDoc(BlackmanWindow_ver13_doc)
+            .Attr(
+                "output_datatype",
+                "The data type of the output tensor. "
+                "Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. "
+                "The default value is 1 = FLOAT. ",
+                AttributeProto::INT,
+                static_cast<int64_t>(TensorProto_DataType_FLOAT))
+            .Input(0,
+                   "size",
+                   "A scalar value indicating the length of the window.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Output(0,
+                   "output",
+                   "A Blackman window with length: size."
+                   "The output has the shape: [size].",
+                   "T2",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .TypeConstraint(
+                "T1",
+                {"tensor(int64)"},
+                "Constrain the input size to int64_t.")
+            .TypeConstraint(
+                "T2",
+                {"tensor(float)",
+                 "tensor(float16)",
+                 "tensor(double)",
+                 "tensor(uint8)",
+                 "tensor(uint16)",
+                 "tensor(uint32)",
+                 "tensor(uint64)",
+                 "tensor(int8)",
+                 "tensor(int16)",
+                 "tensor(int32)",
+                 "tensor(int64)"},
+                 "Constrain output types to numerical types.")
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                auto size = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(0));
+                if (size > 0) {
+                  ONNX_NAMESPACE::TensorShapeProto result_shape;
+                  result_shape.add_dim()->set_dim_value(size);
+                  updateOutputShape(ctx, 0, result_shape);
+                }
+        
+                propagateElemTypeFromAttributeToOutput(ctx, "output_datatype", 0);
+            }));
+
+static const char* MelWeightMatrix_ver13_doc =
+    R"DOC(Generate a MelWeightMatrix.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(MelWeightMatrix,
+        13,
+        OpSchema()
+            .SetDoc(MelWeightMatrix_ver13_doc)
+            .Attr(
+                "output_datatype",
+                "The data type of the output tensor. "
+                "Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. "
+                "The default value is 1 = FLOAT. ",
+                AttributeProto::INT,
+                static_cast<int64_t>(TensorProto_DataType_FLOAT))
+            .Input(0,
+                   "num_mel_bins",
+                   "The number of bands in the mel spectrum.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(1,
+                   "dft_length",
+                   "The size of the original DFT. "
+                   "The size of the original DFT is used to infer the size of the onesided DFT, which is understood to be floor(dft_length/2) + 1, i.e. the spectrogram only contains the nonredundant DFT bins.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(2,
+                   "sample_rate",
+                   "Samples per second of the input signal used to create the spectrogram. Used to figure out the frequencies corresponding to each spectrogram bin, which dictates how they are mapped into the mel scale.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(3,
+                   "lower_edge_hertz",
+                   "Lower bound on the frequencies to be included in the mel spectrum. This corresponds to the lower edge of the lowest triangular band.",
+                   "T2",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(4,
+                   "upper_edge_hertz",
+                   "The desired top edge of the highest frequency band.",
+                   "T2",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Output(0,
+                    "output",
+                    "The Mel Weight Matrix. "
+                    "The output has the shape: [floor(dft_length/2) + 1][num_mel_bins].",
+                    "T3",
+                    OpSchema::Single,
+                    true,
+                    1,
+                    OpSchema::NonDifferentiable)
+            .TypeConstraint(
+                "T1",
+                {"tensor(int64)"},
+                "Constrain to integer tensors.")
+            .TypeConstraint(
+                "T2",
+                {"tensor(float)",
+                 "tensor(float16)",
+                 "tensor(double)"},
+                "Constrain to float tensors")
+            .TypeConstraint(
+                "T3",
+                {"tensor(float)",
+                 "tensor(float16)",
+                 "tensor(double)",
+                 "tensor(uint8)",
+                 "tensor(uint16)",
+                 "tensor(uint32)",
+                 "tensor(uint64)",
+                 "tensor(int8)",
+                 "tensor(int16)",
+                 "tensor(int32)",
+                 "tensor(int64)"},
+                "Constrain to any.")
+
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                auto num_mel_bins = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(0));
+                auto dft_length = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(1));
+                if (num_mel_bins > 0 && dft_length > 0) {
+                    ONNX_NAMESPACE::TensorShapeProto result_shape;
+                    // Figure out how to specify one-sided???
+                    result_shape.add_dim()->set_dim_value(static_cast<int64_t>((dft_length >> 1) + 1));
+                    result_shape.add_dim()->set_dim_value(num_mel_bins);
+                    updateOutputShape(ctx, 0, result_shape);
+                }
+                propagateElemTypeFromAttributeToOutput(ctx, "output_datatype", 0);
+            }));
+
+static const char* STFT_ver13_doc =
+    R"DOC(Computes the Short-time Fourier Transform of the signal.)DOC";
+
+    ONNX_OPERATOR_SET_SCHEMA(STFT,
+        13,
+        OpSchema()
+            .SetDoc(STFT_ver13_doc)
+            .Attr(
+                "onesided",
+                "If onesided is 1, only values for ω in [0, 1, 2, ..., floor(n_fft/2) + 1] are returned because "
+                "the real-to-complex Fourier transform satisfies the conjugate symmetry, i.e., X[m, ω] = X[m,ω]=X[m,n_fft−ω]*. "
+                "Note if the input or window tensors are complex, then onesided output is not possible. "
+                "Enabling onesided with real inputs performs a Real-valued fast Fourier transform (RFFT)."
+                "When invoked with real or complex valued input, the default value is 0. "
+                "Values can be 0 or 1.",
+                AttributeProto::INT,
+                static_cast<int64_t>(0))
+            .Input(0,
+                   "signal",
+                   "Input tensor representing a real or complex valued signal. "
+                   "For real input, the following shape is expected: [batch_size][signal_length]. "
+                   "For complex input, the following shape is expected: [batch_size][signal_length][2], where " 
+                   "[batch_size][signal_length][0] represents the real component and [batch_size][signal_length][1] represents the imaginary component of the signal.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(1,
+                   "window",
+                   "A tensor representing the window that will be slid over the input signal."
+                   "The window must have rank 1 with shape: [window_shape]. "
+                   "It's an optional value. ",
+                   "T1",
+                   OpSchema::Optional,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(2,
+                   "frame_length",
+                   "A scalar representing the size of the dfDFT. "
+                   "It's an optional value.",
+                   "T2",
+                   OpSchema::Optional,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Input(3,
+                   "frame_step",
+                   "The number of samples to step between successive DFTs.",
+                   "T2",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .Output(0,
+                   "output",
+                   "The Short-time Fourier Transform of the signals."
+                   "If onesided is 1, the output has the shape: [batch_size][frames][dft_unique_bins], where dft_unique_bins is frame_length // 2 + 1 (the unique components of the DFT) "
+                   "If onesided is 0, the output has the shape: [batch_size][frames][frame_length][2], where frame_length is the length of the DFT.",
+                   "T1",
+                   OpSchema::Single,
+                   true,
+                   1,
+                   OpSchema::NonDifferentiable)
+            .TypeConstraint(
+                "T1",
+                {"tensor(float)",
+                 "tensor(float16)",
+                 "tensor(double)"},
+                "Constrain signal and output to float tensors.")
+            .TypeConstraint(
+                "T2",
+                {"tensor(int64)"},
+                "Constrain scalar length types to int64_t."));
 } // namespace ONNX_NAMESPACE
