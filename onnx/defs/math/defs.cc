@@ -4145,7 +4145,7 @@ static const char* STFT_ver13_doc =
                    OpSchema::NonDifferentiable)
             .Input(1,
                    "window",
-                   "A tensor representing the window that will be slid over the input signal."
+                   "A tensor representing the window that will be slid over the signal."
                    "The window must have rank 1 with shape: [window_shape]. "
                    "It's an optional value. ",
                    "T1",
@@ -4155,7 +4155,7 @@ static const char* STFT_ver13_doc =
                    OpSchema::NonDifferentiable)
             .Input(2,
                    "frame_length",
-                   "A scalar representing the size of the dfDFT. "
+                   "A scalar representing the size of the DFT. "
                    "It's an optional value.",
                    "T2",
                    OpSchema::Optional,
