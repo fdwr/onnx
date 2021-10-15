@@ -1,7 +1,7 @@
 :: SPDX-License-Identifier: Apache-2.0
 
 :: Run this script from ONNX root directory under Anaconda.
-set CMAKE_ARGS="-DONNX_USE_PROTOBUF_SHARED_LIBS=ON"
+set CMAKE_ARGS="-DONNX_USE_PROTOBUF_SHARED_LIBS=OFF"
 set ONNX_ML=1
 
 python onnx\gen_proto.py -l

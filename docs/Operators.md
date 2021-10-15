@@ -25,6 +25,7 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#AveragePool">AveragePool</a>|<a href="Changelog.md#AveragePool-11">11</a>, <a href="Changelog.md#AveragePool-10">10</a>, <a href="Changelog.md#AveragePool-7">7</a>, <a href="Changelog.md#AveragePool-1">1</a>|
 |<a href="#BatchNormalization">BatchNormalization</a>|<a href="Changelog.md#BatchNormalization-15">15</a>, <a href="Changelog.md#BatchNormalization-14">14</a>, <a href="Changelog.md#BatchNormalization-9">9</a>, <a href="Changelog.md#BatchNormalization-7">7</a>, <a href="Changelog.md#BatchNormalization-6">6</a>, <a href="Changelog.md#BatchNormalization-1">1</a>|
 |<a href="#BitShift">BitShift</a>|<a href="Changelog.md#BitShift-11">11</a>|
+|<a href="#BlackmanWindow">BlackmanWindow</a>|<a href="Changelog.md#BlackmanWindow-16">16</a>|
 |<a href="#Cast">Cast</a>|<a href="Changelog.md#Cast-13">13</a>, <a href="Changelog.md#Cast-9">9</a>, <a href="Changelog.md#Cast-6">6</a>, <a href="Changelog.md#Cast-1">1</a>|
 |<a href="#Ceil">Ceil</a>|<a href="Changelog.md#Ceil-13">13</a>, <a href="Changelog.md#Ceil-6">6</a>, <a href="Changelog.md#Ceil-1">1</a>|
 |<a href="#Clip">Clip</a>|<a href="Changelog.md#Clip-13">13</a>, <a href="Changelog.md#Clip-12">12</a>, <a href="Changelog.md#Clip-11">11</a>, <a href="Changelog.md#Clip-6">6</a>, <a href="Changelog.md#Clip-1">1</a>|
@@ -39,6 +40,7 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#Cos">Cos</a>|<a href="Changelog.md#Cos-7">7</a>|
 |<a href="#Cosh">Cosh</a>|<a href="Changelog.md#Cosh-9">9</a>|
 |<a href="#CumSum">CumSum</a>|<a href="Changelog.md#CumSum-14">14</a>, <a href="Changelog.md#CumSum-11">11</a>|
+|<a href="#DFT">DFT</a>|<a href="Changelog.md#DFT-16">16</a>|
 |<a href="#DepthToSpace">DepthToSpace</a>|<a href="Changelog.md#DepthToSpace-13">13</a>, <a href="Changelog.md#DepthToSpace-11">11</a>, <a href="Changelog.md#DepthToSpace-1">1</a>|
 |<a href="#DequantizeLinear">DequantizeLinear</a>|<a href="Changelog.md#DequantizeLinear-13">13</a>, <a href="Changelog.md#DequantizeLinear-10">10</a>|
 |<a href="#Det">Det</a>|<a href="Changelog.md#Det-11">11</a>|
@@ -62,8 +64,12 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#GlobalLpPool">GlobalLpPool</a>|<a href="Changelog.md#GlobalLpPool-2">2</a>, <a href="Changelog.md#GlobalLpPool-1">1</a>|
 |<a href="#GlobalMaxPool">GlobalMaxPool</a>|<a href="Changelog.md#GlobalMaxPool-1">1</a>|
 |<a href="#Greater">Greater</a>|<a href="Changelog.md#Greater-13">13</a>, <a href="Changelog.md#Greater-9">9</a>, <a href="Changelog.md#Greater-7">7</a>, <a href="Changelog.md#Greater-1">1</a>|
+|<a href="#HammingWindow">HammingWindow</a>|<a href="Changelog.md#HammingWindow-16">16</a>|
+|<a href="#HannWindow">HannWindow</a>|<a href="Changelog.md#HannWindow-16">16</a>|
 |<a href="#HardSigmoid">HardSigmoid</a>|<a href="Changelog.md#HardSigmoid-6">6</a>, <a href="Changelog.md#HardSigmoid-1">1</a>|
 |<a href="#Hardmax">Hardmax</a>|<a href="Changelog.md#Hardmax-13">13</a>, <a href="Changelog.md#Hardmax-11">11</a>, <a href="Changelog.md#Hardmax-1">1</a>|
+|<a href="#IDFT">IDFT</a>|<a href="Changelog.md#IDFT-16">16</a>|
+|<a href="#ISTFT">ISTFT</a>|<a href="Changelog.md#ISTFT-16">16</a>|
 |<a href="#Identity">Identity</a>|<a href="Changelog.md#Identity-16">16</a>, <a href="Changelog.md#Identity-14">14</a>, <a href="Changelog.md#Identity-13">13</a>, <a href="Changelog.md#Identity-1">1</a>|
 |<a href="#If">If</a>|<a href="Changelog.md#If-16">16</a>, <a href="Changelog.md#If-13">13</a>, <a href="Changelog.md#If-11">11</a>, <a href="Changelog.md#If-1">1</a>|
 |<a href="#InstanceNormalization">InstanceNormalization</a>|<a href="Changelog.md#InstanceNormalization-6">6</a>, <a href="Changelog.md#InstanceNormalization-1">1</a>|
@@ -84,6 +90,7 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#MaxRoiPool">MaxRoiPool</a>|<a href="Changelog.md#MaxRoiPool-1">1</a>|
 |<a href="#MaxUnpool">MaxUnpool</a>|<a href="Changelog.md#MaxUnpool-11">11</a>, <a href="Changelog.md#MaxUnpool-9">9</a>|
 |<a href="#Mean">Mean</a>|<a href="Changelog.md#Mean-13">13</a>, <a href="Changelog.md#Mean-8">8</a>, <a href="Changelog.md#Mean-6">6</a>, <a href="Changelog.md#Mean-1">1</a>|
+|<a href="#MelWeightMatrix">MelWeightMatrix</a>|<a href="Changelog.md#MelWeightMatrix-16">16</a>|
 |<a href="#Min">Min</a>|<a href="Changelog.md#Min-13">13</a>, <a href="Changelog.md#Min-12">12</a>, <a href="Changelog.md#Min-8">8</a>, <a href="Changelog.md#Min-6">6</a>, <a href="Changelog.md#Min-1">1</a>|
 |<a href="#Mod">Mod</a>|<a href="Changelog.md#Mod-13">13</a>, <a href="Changelog.md#Mod-10">10</a>|
 |<a href="#Mul">Mul</a>|<a href="Changelog.md#Mul-14">14</a>, <a href="Changelog.md#Mul-13">13</a>, <a href="Changelog.md#Mul-7">7</a>, <a href="Changelog.md#Mul-6">6</a>, <a href="Changelog.md#Mul-1">1</a>|
@@ -125,6 +132,7 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#ReverseSequence">ReverseSequence</a>|<a href="Changelog.md#ReverseSequence-10">10</a>|
 |<a href="#RoiAlign">RoiAlign</a>|<a href="Changelog.md#RoiAlign-16">16</a>, <a href="Changelog.md#RoiAlign-10">10</a>|
 |<a href="#Round">Round</a>|<a href="Changelog.md#Round-11">11</a>|
+|<a href="#STFT">STFT</a>|<a href="Changelog.md#STFT-16">16</a>|
 |<a href="#Scan">Scan</a>|<a href="Changelog.md#Scan-11">11</a>, <a href="Changelog.md#Scan-9">9</a>, <a href="Changelog.md#Scan-8">8</a>|
 |<a href="#Scatter">Scatter</a> (deprecated)|<a href="Changelog.md#Scatter-11">11</a>, <a href="Changelog.md#Scatter-9">9</a>|
 |<a href="#ScatterElements">ScatterElements</a>|<a href="Changelog.md#ScatterElements-16">16</a>, <a href="Changelog.md#ScatterElements-13">13</a>, <a href="Changelog.md#ScatterElements-11">11</a>|
@@ -2385,6 +2393,45 @@ expect(node, inputs=[x, y], outputs=[z],
 </details>
 
 
+### <a name="BlackmanWindow"></a><a name="blackmanwindow">**BlackmanWindow**</a>
+
+  Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>output_datatype</tt> : int (default is 1)</dt>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>size</tt> (non-differentiable) : T1</dt>
+<dd>A scalar value indicating the length of the window.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T2</dt>
+<dd>A Hann window with length: size. The output has the shape: [size].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(int64)</dt>
+<dd>Constrain the input size to int64_t.</dd>
+<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain output types to numeric tensors.</dd>
+</dl>
+
+
 ### <a name="Cast"></a><a name="cast">**Cast**</a>
 
   The operator casts the elements of a given input tensor to a data type
@@ -4451,6 +4498,43 @@ expect(node, inputs=[x, axis], outputs=[y],
 ```
 
 </details>
+
+
+### <a name="DFT"></a><a name="dft">**DFT**</a>
+
+  Computes the discrete Fourier transform of input.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>onesided</tt> : int (default is 0)</dt>
+<dd>If onesided is 1, only values for w in [0, 1, 2, ..., floor(n_fft/2) + 1] are returned because the real-to-complex Fourier transform satisfies the conjugate symmetry, i.e., X[m, w] = X[m,w]=X[m,n_fft-w]*. Note if the input or window tensors are complex, then onesided output is not possible. Enabling onesided with real inputs performs a Real-valued fast Fourier transform (RFFT).When invoked with real or complex valued input, the default value is 0. Values can be 0 or 1.</dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>input</tt> (non-differentiable) : T</dt>
+<dd>Input tensor representing a real or complex valued signal. For real input, the following shape is expected: [batch_size][n_fft]. For complex input, the following shape is expected: [batch_size][n_fft][2], where [batch_size][n_fft][0] represents the real component and [batch_size][n_fft][1] represents the imaginary component of the signal.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> : T</dt>
+<dd>The discrete Fourier transform of input. If onesided is 1, the output has the shape: [batch_size][floor(n_fft/2)+1][2]. If onesided is 0, the output has the shape: [batch_size][n_fft][2]For all types of input, the last dimension of the output represents the components of a complex number.</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T</tt> : tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain input and output types to float tensors.</dd>
+</dl>
 
 
 ### <a name="DepthToSpace"></a><a name="depthtospace">**DepthToSpace**</a>
@@ -7609,6 +7693,84 @@ This version of the operator has been available since version 12 of the default 
 </dl>
 
 
+### <a name="HammingWindow"></a><a name="hammingwindow">**HammingWindow**</a>
+
+  Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>output_datatype</tt> : int (default is 1)</dt>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>size</tt> (non-differentiable) : T1</dt>
+<dd>A scalar value indicating the length of the window.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T2</dt>
+<dd>A Hann window with length: size. The output has the shape: [size].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(int64)</dt>
+<dd>Constrain the input size to int64_t.</dd>
+<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain output types to numeric tensors.</dd>
+</dl>
+
+
+### <a name="HannWindow"></a><a name="hannwindow">**HannWindow**</a>
+
+  Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>output_datatype</tt> : int (default is 1)</dt>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>size</tt> (non-differentiable) : T1</dt>
+<dd>A scalar value indicating the length of the window.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T2</dt>
+<dd>A Hann window with length: size. The output has the shape: [size].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(int64)</dt>
+<dd>Constrain the input size to int64_t.</dd>
+<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain output types to numeric tensors.</dd>
+</dl>
+
+
 ### <a name="HardSigmoid"></a><a name="hardsigmoid">**HardSigmoid**</a>
 
   HardSigmoid takes one input data (Tensor<T>) and produces one output data
@@ -7893,6 +8055,81 @@ expect(node, inputs=[x], outputs=[y],
 ```
 
 </details>
+
+
+### <a name="IDFT"></a><a name="idft">**IDFT**</a>
+
+  Computes the inverse discrete Fourier transform of input.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Inputs
+
+<dl>
+<dt><tt>input</tt> (non-differentiable) : T</dt>
+<dd>Input tensor representing a real or complex valued signal. For real input, the following shape is expected: [batch_size][n_fft]. For complex input, the following shape is expected: [batch_size][n_fft][2], where [batch_size][n_fft][0] represents the real component and [batch_size][n_fft][1] represents the imaginary component of the signal.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T</dt>
+<dd>The inverse 1-dimensional discrete Fourier transform of the input. The output has the shape: [batch_size][n_fft][2]For all types of input, the last dimension of the output represents the components of a complex number.</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T</tt> : tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain input and output types to float tensors.</dd>
+</dl>
+
+
+### <a name="ISTFT"></a><a name="istft">**ISTFT**</a>
+
+  Computes the inverse Short-time Fourier Transform of the signal.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>onesided</tt> : int (default is 0)</dt>
+<dd>Whether the STFT was onesided.Values can be 0 or 1.</dd>
+</dl>
+
+#### Inputs (2 - 4)
+
+<dl>
+<dt><tt>signal</tt> (non-differentiable) : T1</dt>
+<dd>The input tensor. Expected to be output of STFT(). The following shape is expected: [batch_size][signal_length][2], where [batch_size][signal_length][0] represents the real component and [batch_size][signal_length][1] represents the imaginary component of the signal.</dd>
+<dt><tt>frame_step</tt> (non-differentiable) : T2</dt>
+<dd>The number of samples to step between successive DFTs.</dd>
+<dt><tt>window</tt> (optional, non-differentiable) : T1</dt>
+<dd>A tensor representing the window that was used.The window must have rank 1 with shape: [window_shape].It's an optional value.</dd>
+<dt><tt>frame_length</tt> (optional, non-differentiable) : T2</dt>
+<dd>A scalar representing the size of the DFT. It's an optional value.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T1</dt>
+<dd>The approximation of the inverse STFT of the input as given by the least squares estimation of the original signal.The output has the shape: [batch_size][signal_length][2].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(float), tensor(float16), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain signal and output to float tensors.</dd>
+<dt><tt>T2</tt> : tensor(int64)</dt>
+<dd>Constrain scalar length types to int64_t.</dd>
+</dl>
 
 
 ### <a name="Identity"></a><a name="identity">**Identity**</a>
@@ -11181,6 +11418,55 @@ expect(node, inputs=[input_data], outputs=[expected_output],
 ```
 
 </details>
+
+
+### <a name="MelWeightMatrix"></a><a name="melweightmatrix">**MelWeightMatrix**</a>
+
+  Generate a MelWeightMatrix.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>output_datatype</tt> : int (default is 1)</dt>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>num_mel_bins</tt> (non-differentiable) : T1</dt>
+<dd>The number of bands in the mel spectrum.</dd>
+<dt><tt>dft_length</tt> (non-differentiable) : T1</dt>
+<dd>The size of the original DFT. The size of the original DFT is used to infer the size of the onesided DFT, which is understood to be floor(dft_length/2) + 1, i.e. the spectrogram only contains the nonredundant DFT bins.</dd>
+<dt><tt>sample_rate</tt> (non-differentiable) : T1</dt>
+<dd>Samples per second of the input signal used to create the spectrogram. Used to figure out the frequencies corresponding to each spectrogram bin, which dictates how they are mapped into the mel scale.</dd>
+<dt><tt>lower_edge_hertz</tt> (non-differentiable) : T2</dt>
+<dd>Lower bound on the frequencies to be included in the mel spectrum. This corresponds to the lower edge of the lowest triangular band.</dd>
+<dt><tt>upper_edge_hertz</tt> (non-differentiable) : T2</dt>
+<dd>The desired top edge of the highest frequency band.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T3</dt>
+<dd>The Mel Weight Matrix. The output has the shape: [floor(dft_length/2) + 1][num_mel_bins].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(int64)</dt>
+<dd>Constrain to integer tensors.</dd>
+<dt><tt>T2</tt> : tensor(float), tensor(float16), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain to float tensors</dd>
+<dt><tt>T3</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain to any numerical types.</dd>
+</dl>
 
 
 ### <a name="Min"></a><a name="min">**Min**</a>
@@ -18074,6 +18360,51 @@ expect(node, inputs=[x], outputs=[y],
 ```
 
 </details>
+
+
+### <a name="STFT"></a><a name="stft">**STFT**</a>
+
+  Computes the Short-time Fourier Transform of the signal.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>onesided</tt> : int (default is 0)</dt>
+<dd>If onesided is 1, only values for w in [0, 1, 2, ..., floor(n_fft/2) + 1] are returned because the real-to-complex Fourier transform satisfies the conjugate symmetry, i.e., X[m, w] = X[m,w]=X[m,n_fft-w]*. Note if the input or window tensors are complex, then onesided output is not possible. Enabling onesided with real inputs performs a Real-valued fast Fourier transform (RFFT).When invoked with real or complex valued input, the default value is 0. Values can be 0 or 1.</dd>
+</dl>
+
+#### Inputs (2 - 4)
+
+<dl>
+<dt><tt>signal</tt> (non-differentiable) : T1</dt>
+<dd>Input tensor representing a real or complex valued signal. For real input, the following shape is expected: [batch_size][signal_length]. For complex input, the following shape is expected: [batch_size][signal_length][2], where [batch_size][signal_length][0] represents the real component and [batch_size][signal_length][1] represents the imaginary component of the signal.</dd>
+<dt><tt>frame_step</tt> (non-differentiable) : T2</dt>
+<dd>The number of samples to step between successive DFTs.</dd>
+<dt><tt>window</tt> (optional, non-differentiable) : T1</dt>
+<dd>A tensor representing the window that will be slid over the signal.The window must have rank 1 with shape: [window_shape]. It's an optional value. </dd>
+<dt><tt>frame_length</tt> (optional, non-differentiable) : T2</dt>
+<dd>A scalar representing the size of the DFT. It's an optional value.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T1</dt>
+<dd>The Short-time Fourier Transform of the signals.If onesided is 1, the output has the shape: [batch_size][frames][dft_unique_bins][2], where dft_unique_bins is frame_length // 2 + 1 (the unique components of the DFT) If onesided is 0, the output has the shape: [batch_size][frames][frame_length][2], where frame_length is the length of the DFT.</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(float), tensor(float16), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain signal and output to float tensors.</dd>
+<dt><tt>T2</tt> : tensor(int64)</dt>
+<dd>Constrain scalar length types to int64_t.</dd>
+</dl>
 
 
 ### <a name="Scan"></a><a name="scan">**Scan**</a>

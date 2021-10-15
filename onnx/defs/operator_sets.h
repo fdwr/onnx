@@ -1000,6 +1000,15 @@ class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, Loop);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, Identity);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, Where);
 
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, DFT);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, IDFT);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, HannWindow);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, HammingWindow);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, BlackmanWindow);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, MelWeightMatrix);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, STFT);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, ISTFT);
+
 // Iterate over schema from ai.onnx version 16
 class OpSet_Onnx_ver16 {
  public:
@@ -1011,6 +1020,14 @@ class OpSet_Onnx_ver16 {
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, Loop)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, Identity)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, Where)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, DFT)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, IDFT)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, HannWindow)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, HammingWindow)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, BlackmanWindow)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, MelWeightMatrix)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, STFT)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, ISTFT)>());
   }
 };
 inline void RegisterOnnxOperatorSetSchema() {

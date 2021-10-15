@@ -3913,6 +3913,41 @@ class TestShapeInference(unittest.TestCase):
         inferred_model = onnx.shape_inference.infer_shapes(model)
         self.assertFalse(inferred_model.graph.output[0].type.tensor_type.HasField('shape'))
 
+    def test_hammingwindow(self):  # type: () -> None
+        model = helper.make_model(
+            graph=helper.make_graph(
+                name='hamming_graph',
+                inputs=[],
+                outputs=[helper.make_tensor_value_info('y', TensorProto.FLOAT, shape=None)],
+                nodes=[make_node('HammingWindow', ['x'], ['y'])],
+                initializer=[numpy_helper.from_array(np.array([10], dtype=np.int64), name='x')]))
+
+        inferred_model = onnx.shape_inference.infer_shapes(model)
+        self.assertTrue(inferred_model.graph.output[0].type.tensor_type.HasField('shape'))
+
+    def test_hannwindow(self):  # type: () -> None
+        model = helper.make_model(
+            graph=helper.make_graph(
+                name='hann_graph',
+                inputs=[],
+                outputs=[helper.make_tensor_value_info('y', TensorProto.FLOAT, shape=None)],
+                nodes=[make_node('HannWindow', ['x'], ['y'])],
+                initializer=[numpy_helper.from_array(np.array([10], dtype=np.int64), name='x')]))
+
+        inferred_model = onnx.shape_inference.infer_shapes(model)
+        self.assertTrue(inferred_model.graph.output[0].type.tensor_type.HasField('shape'))
+
+    def test_blackmanwindow(self):  # type: () -> None
+        model = helper.make_model(
+            graph=helper.make_graph(
+                name='blackman_graph',
+                inputs=[],
+                outputs=[helper.make_tensor_value_info('y', TensorProto.FLOAT, shape=None)],
+                nodes=[make_node('BlackmanWindow', ['x'], ['y'])],
+                initializer=[numpy_helper.from_array(np.array([10], dtype=np.int64), name='x')]))
+
+        inferred_model = onnx.shape_inference.infer_shapes(model)
+        self.assertTrue(inferred_model.graph.output[0].type.tensor_type.HasField('shape'))
 
 if __name__ == '__main__':
     unittest.main()
