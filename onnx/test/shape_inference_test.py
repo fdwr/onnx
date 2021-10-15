@@ -3949,5 +3949,6 @@ class TestShapeInference(unittest.TestCase):
         inferred_model = onnx.shape_inference.infer_shapes(model)
         self.assertTrue(inferred_model.graph.output[0].type.tensor_type.HasField('shape'))
 
+
 if __name__ == '__main__':
     unittest.main()
