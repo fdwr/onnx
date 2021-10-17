@@ -3922,8 +3922,16 @@ ONNX_OPERATOR_SET_SCHEMA(
             OpSchema::all_numeric_types_with_bfloat(),
             "Constrain output types to numeric tensors."));
 
-static const char* MelWeightMatrix_ver16_doc =
-    R"DOC(Generate a MelWeightMatrix.)DOC";
+static const char* MelWeightMatrix_ver16_doc = R"DOC(
+Generate a MelWeightMatrix that can be used to re-weight a Tensor containing a linearly sampled frequency spectra (from DFT or STFT) into num_mel_bins frequency information based on the [lower_edge_hertz, upper_edge_hertz] range on the mel scale.
+This function defines the mel scale in terms of a frequency in hertz according to the following formula:
+    
+    mel(f) = 2595 * log10(1 + f/700)
+
+In the returned matrix, all the triangles (filterbanks) have a peak value of 1.0.
+
+The returned MelWeightMatrix can be used to right-multiply a spectrogram S of shape [frames, num_spectrogram_bins] of linear scale spectrum values (e.g. STFT magnitudes) to generate a "mel spectrogram" M of shape [frames, num_mel_bins].
+)DOC";
 
     ONNX_OPERATOR_SET_SCHEMA(MelWeightMatrix,
         16,
