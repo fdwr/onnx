@@ -11432,7 +11432,7 @@ This version of the operator has been available since version 16 of the default 
 
 <dl>
 <dt><tt>output_datatype</tt> : int (default is 1)</dt>
-<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T3. The default value is 1 = FLOAT. </dd>
 </dl>
 
 #### Inputs
