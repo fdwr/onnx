@@ -3874,8 +3874,8 @@ Generates a {name} window as described in the paper https://ieeexplore.ieee.org/
           result_shape.add_dim()->set_dim_value(size);
           updateOutputShape(ctx, 0, result_shape);
       }
-
-      propagateElemTypeFromAttributeToOutput(ctx, "output_datatype", 0);
+      auto output_datatype = getAttribute(ctx, "output_datatype", static_cast<int64_t>(TensorProto_DataType_FLOAT));
+      updateOutputElemType(ctx, 0, output_datatype);
     });
   };
 }
@@ -3932,7 +3932,7 @@ static const char* MelWeightMatrix_ver16_doc =
             .Attr(
                 "output_datatype",
                 "The data type of the output tensor. "
-                "Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. "
+                "Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T3. "
                 "The default value is 1 = FLOAT. ",
                 AttributeProto::INT,
                 static_cast<int64_t>(TensorProto_DataType_FLOAT))
@@ -4001,7 +4001,6 @@ static const char* MelWeightMatrix_ver16_doc =
                 "T3",
                 OpSchema::all_numeric_types_with_bfloat(),
                 "Constrain to any numerical types.")
-
             .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
                 auto num_mel_bins = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(0));
                 auto dft_length = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(1));
@@ -4012,7 +4011,8 @@ static const char* MelWeightMatrix_ver16_doc =
                     result_shape.add_dim()->set_dim_value(num_mel_bins);
                     updateOutputShape(ctx, 0, result_shape);
                 }
-                propagateElemTypeFromAttributeToOutput(ctx, "output_datatype", 0);
+                auto output_datatype = getAttribute(ctx, "output_datatype", static_cast<int64_t>(TensorProto_DataType_FLOAT));
+                updateOutputElemType(ctx, 0, output_datatype);
             }));
 
 static const char* STFT_ver16_doc =
