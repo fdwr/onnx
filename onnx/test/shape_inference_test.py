@@ -4013,11 +4013,11 @@ class TestShapeInference(unittest.TestCase):
              make_node("MelWeightMatrix", ['num_mel_bins','dft_length','sample_rate','lower_edge_hertz','upper_edge_hertz'], ['output'])],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()),
-             make_tensor_value_info('dft_length', TensorProto.INT64, ()),
-             make_tensor_value_info('sample_rate', TensorProto.INT64, ()),
-             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()),
-             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()),
+            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()), 
+             make_tensor_value_info('dft_length', TensorProto.INT64, ()), 
+             make_tensor_value_info('sample_rate', TensorProto.INT64, ()), 
+             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()), 
+             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()), 
              make_tensor_value_info('output', TensorProto.FLOAT, (65,10))])  # type: ignore
 
     def test_melweightmatrix_with_output_datatype(self):  # type: () -> None
@@ -4030,11 +4030,11 @@ class TestShapeInference(unittest.TestCase):
              make_node("MelWeightMatrix", ['num_mel_bins','dft_length','sample_rate','lower_edge_hertz','upper_edge_hertz'], ['output'], output_datatype=TensorProto.DOUBLE)],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()),
-             make_tensor_value_info('dft_length', TensorProto.INT64, ()),
-             make_tensor_value_info('sample_rate', TensorProto.INT64, ()),
-             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()),
-             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()),
+            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()), 
+             make_tensor_value_info('dft_length', TensorProto.INT64, ()), 
+             make_tensor_value_info('sample_rate', TensorProto.INT64, ()), 
+             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()), 
+             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()), 
              make_tensor_value_info('output', TensorProto.DOUBLE, (65,10))])  # type: ignore
 
 
