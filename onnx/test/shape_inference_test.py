@@ -3951,7 +3951,7 @@ class TestShapeInference(unittest.TestCase):
             [])
         self._assert_inferred(graph,
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))])  # type: ignore
 
     def test_dft_complex(self):  # type: () -> None
         graph = self._make_graph([],
@@ -3961,7 +3961,7 @@ class TestShapeInference(unittest.TestCase):
             [])
         self._assert_inferred(graph,
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, 2)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))])  # type: ignore
 
     def test_dft_reals_onesided(self):  # type: () -> None
         graph = self._make_graph([],
@@ -3971,7 +3971,7 @@ class TestShapeInference(unittest.TestCase):
             [])
         self._assert_inferred(graph,
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2, 3, 2))]) # type: ignore
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 3, 2))])  # type: ignore
 
     def test_dft_complex_onesided(self):  # type: () -> None
         graph = self._make_graph([],
@@ -3981,7 +3981,7 @@ class TestShapeInference(unittest.TestCase):
             [])
         self._assert_inferred(graph,
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, 2)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2, 3, 2))]) # type: ignore
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 3, 2))])  # type: ignore
 
     def test_idft_reals(self):  # type: () -> None
         graph = self._make_graph([],
@@ -3991,7 +3991,7 @@ class TestShapeInference(unittest.TestCase):
             [])
         self._assert_inferred(graph,
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))])  # type: ignore
 
     def test_idft_complex(self):  # type: () -> None
         graph = self._make_graph([],
@@ -4001,7 +4001,7 @@ class TestShapeInference(unittest.TestCase):
             [])
         self._assert_inferred(graph,
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, 2)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))])  # type: ignore
 
     def test_melweightmatrix(self):  # type: () -> None
         graph = self._make_graph([],
@@ -4035,7 +4035,7 @@ class TestShapeInference(unittest.TestCase):
              make_tensor_value_info('sample_rate', TensorProto.INT64, ()),
              make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()),
              make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()),
-             make_tensor_value_info('output', TensorProto.DOUBLE, (65, 10))]) # type: ignore
+             make_tensor_value_info('output', TensorProto.DOUBLE, (65, 10))])  # type: ignore
 
 
 if __name__ == '__main__':
