@@ -3946,7 +3946,7 @@ class TestShapeInference(unittest.TestCase):
     def test_dft_reals(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("DFT", ['input'], ['output'])],
             [])
         self._assert_inferred(graph,
@@ -3966,7 +3966,7 @@ class TestShapeInference(unittest.TestCase):
     def test_dft_reals_onesided(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("DFT", ['input'], ['output'], onesided=1)],
             [])
         self._assert_inferred(graph,
@@ -3986,7 +3986,7 @@ class TestShapeInference(unittest.TestCase):
     def test_idft_reals(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("IDFT", ['input'], ['output'])],
             [])
         self._assert_inferred(graph,
