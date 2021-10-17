@@ -3946,96 +3946,96 @@ class TestShapeInference(unittest.TestCase):
     def test_dft_reals(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2,5,),((0,0,0,0,0,1,1,1,1,1,)))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("DFT", ['input'], ['output'])],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5,)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2,5,2))])  # type: ignore
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
 
     def test_dft_complex(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2,5,2),((0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,)))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, 2), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("DFT", ['input'], ['output'])],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('shape', TensorProto.FLOAT, (2,5,2)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2,5,2))])  # type: ignore
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, 2)),
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
 
     def test_dft_reals_onesided(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2,5,),((0,0,0,0,0,1,1,1,1,1,)))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("DFT", ['input'], ['output'], onesided=1)],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5,)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2,3,2))])  # type: ignore
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 3, 2))]) # type: ignore
 
     def test_dft_complex_onesided(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2,5,2),((0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,)))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, 2), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("DFT", ['input'], ['output'], onesided=1)],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('shape', TensorProto.FLOAT, (2,5,2)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2,3,2))])  # type: ignore
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, 2)),
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 3, 2))]) # type: ignore
 
     def test_idft_reals(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2,5,),((0,0,0,0,0,1,1,1,1,1,)))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, ), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("IDFT", ['input'], ['output'])],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5,)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2,5,2))])  # type: ignore
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
 
     def test_idft_complex(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],
-                       value=make_tensor('input', TensorProto.FLOAT, (2,5,2),((0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,)))),
+                       value=make_tensor('input', TensorProto.FLOAT, (2, 5, 2), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, ))),
              make_node("IDFT", ['input'], ['output'])],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('shape', TensorProto.FLOAT, (2,5,2)),
-             make_tensor_value_info('y', TensorProto.FLOAT, (2,5,2))])  # type: ignore
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, 2)),
+             make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))]) # type: ignore
 
     def test_melweightmatrix(self):  # type: () -> None
         graph = self._make_graph([],
-            [make_node("Constant", [], ['num_mel_bins'], value=make_tensor('num_mel_bins', TensorProto.INT64, (),(10,))),
-             make_node("Constant", [], ['dft_length'], value=make_tensor('dft_length', TensorProto.INT64, (),(128,))),
-             make_node("Constant", [], ['sample_rate'], value=make_tensor('sample_rate', TensorProto.INT64, (),(10,))),
-             make_node("Constant", [], ['lower_edge_hertz'], value=make_tensor('lower_edge_hertz', TensorProto.FLOAT, (),(10.,))),
-             make_node("Constant", [], ['upper_edge_hertz'], value=make_tensor('upper_edge_hertz', TensorProto.FLOAT, (),(100.,))),
-             make_node("MelWeightMatrix", ['num_mel_bins','dft_length','sample_rate','lower_edge_hertz','upper_edge_hertz'], ['output'])],
+            [make_node("Constant", [], ['num_mel_bins'], value=make_tensor('num_mel_bins', TensorProto.INT64, (), (10,))),
+             make_node("Constant", [], ['dft_length'], value=make_tensor('dft_length', TensorProto.INT64, (), (128,))),
+             make_node("Constant", [], ['sample_rate'], value=make_tensor('sample_rate', TensorProto.INT64, (), (10,))),
+             make_node("Constant", [], ['lower_edge_hertz'], value=make_tensor('lower_edge_hertz', TensorProto.FLOAT, (), (10.,))),
+             make_node("Constant", [], ['upper_edge_hertz'], value=make_tensor('upper_edge_hertz', TensorProto.FLOAT, (), (100.,))),
+             make_node("MelWeightMatrix", ['num_mel_bins', 'dft_length', 'sample_rate', 'lower_edge_hertz', 'upper_edge_hertz'], ['output'])],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()), 
-             make_tensor_value_info('dft_length', TensorProto.INT64, ()), 
-             make_tensor_value_info('sample_rate', TensorProto.INT64, ()), 
-             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()), 
-             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()), 
-             make_tensor_value_info('output', TensorProto.FLOAT, (65,10))])  # type: ignore
+            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()),
+             make_tensor_value_info('dft_length', TensorProto.INT64, ()),
+             make_tensor_value_info('sample_rate', TensorProto.INT64, ()),
+             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()),
+             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()),
+             make_tensor_value_info('output', TensorProto.FLOAT, (65, 10))])  # type: ignore
 
     def test_melweightmatrix_with_output_datatype(self):  # type: () -> None
         graph = self._make_graph([],
-            [make_node("Constant", [], ['num_mel_bins'], value=make_tensor('num_mel_bins', TensorProto.INT64, (),(10,))),
-             make_node("Constant", [], ['dft_length'], value=make_tensor('dft_length', TensorProto.INT64, (),(128,))),
-             make_node("Constant", [], ['sample_rate'], value=make_tensor('sample_rate', TensorProto.INT64, (),(10,))),
-             make_node("Constant", [], ['lower_edge_hertz'], value=make_tensor('lower_edge_hertz', TensorProto.FLOAT, (),(10.,))),
-             make_node("Constant", [], ['upper_edge_hertz'], value=make_tensor('upper_edge_hertz', TensorProto.FLOAT, (),(100.,))),
-             make_node("MelWeightMatrix", ['num_mel_bins','dft_length','sample_rate','lower_edge_hertz','upper_edge_hertz'], ['output'], output_datatype=TensorProto.DOUBLE)],
+            [make_node("Constant", [], ['num_mel_bins'], value=make_tensor('num_mel_bins', TensorProto.INT64, (), (10,))),
+             make_node("Constant", [], ['dft_length'], value=make_tensor('dft_length', TensorProto.INT64, (), (128,))),
+             make_node("Constant", [], ['sample_rate'], value=make_tensor('sample_rate', TensorProto.INT64, (), (10,))),
+             make_node("Constant", [], ['lower_edge_hertz'], value=make_tensor('lower_edge_hertz', TensorProto.FLOAT, (), (10.,))),
+             make_node("Constant", [], ['upper_edge_hertz'], value=make_tensor('upper_edge_hertz', TensorProto.FLOAT, (), (100.,))),
+             make_node("MelWeightMatrix", ['num_mel_bins', 'dft_length', 'sample_rate', 'lower_edge_hertz', 'upper_edge_hertz'], ['output'], output_datatype=TensorProto.DOUBLE)],
             [])
         self._assert_inferred(graph,
-            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()), 
-             make_tensor_value_info('dft_length', TensorProto.INT64, ()), 
-             make_tensor_value_info('sample_rate', TensorProto.INT64, ()), 
-             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()), 
-             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()), 
-             make_tensor_value_info('output', TensorProto.DOUBLE, (65,10))])  # type: ignore
+            [make_tensor_value_info('num_mel_bins', TensorProto.INT64, ()),
+             make_tensor_value_info('dft_length', TensorProto.INT64, ()),
+             make_tensor_value_info('sample_rate', TensorProto.INT64, ()),
+             make_tensor_value_info('lower_edge_hertz', TensorProto.FLOAT, ()),
+             make_tensor_value_info('upper_edge_hertz', TensorProto.FLOAT, ()),
+             make_tensor_value_info('output', TensorProto.DOUBLE, (65, 10))]) # type: ignore
 
 
 if __name__ == '__main__':
