@@ -1076,6 +1076,30 @@ class TestAutomaticUpgrade(unittest.TestCase):
         untested_ops = set(all_op_names) - set(tested_ops)
         assert len(untested_ops) == 0
 
+    def test_blackmanwindow(self):  # type: () -> None
+        self._test_op_upgrade('BlackmanWindow', 16)
+        
+    def test_hannwindow(self):  # type: () -> None
+        self._test_op_upgrade('HannWindow', 16)
+        
+    def test_hammingwindow(self):  # type: () -> None
+        self._test_op_upgrade('HammingWindow', 16)
+        
+    def test_dft(self):  # type: () -> None
+        self._test_op_upgrade('DFT', 16)
+        
+    def test_idft(self):  # type: () -> None
+        self._test_op_upgrade('IDFT', 16)
+        
+    def test_stft(self):  # type: () -> None
+        self._test_op_upgrade('STFT', 16)
+        
+    def test_istft(self):  # type: () -> None
+        self._test_op_upgrade('ISTFT', 16)
+        
+    def test_melweightmatrix(self):  # type: () -> None
+        self._test_op_upgrade('MelWeightMatrix', 16)
+        
 
 if __name__ == '__main__':
     unittest.main()
