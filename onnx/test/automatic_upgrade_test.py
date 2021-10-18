@@ -1069,7 +1069,10 @@ class TestAutomaticUpgrade(unittest.TestCase):
             'SplitToSequence',
             'Optional',
             'OptionalGetElement',
-            "OptionalHasElement"
+            'OptionalHasElement',
+            'STFT',
+            'ISTFT',
+            'MelWeightMatrix'
         ]
         all_op_names = [op for op in all_op_names if op not in excluded_ops]
 
@@ -1090,15 +1093,6 @@ class TestAutomaticUpgrade(unittest.TestCase):
 
     def test_idft(self):  # type: () -> None
         self._test_op_upgrade('IDFT', 16)
-
-    def test_stft(self):  # type: () -> None
-        self._test_op_upgrade('STFT', 16)
-
-    def test_istft(self):  # type: () -> None
-        self._test_op_upgrade('ISTFT', 16)
-
-    def test_melweightmatrix(self):  # type: () -> None
-        self._test_op_upgrade('MelWeightMatrix', 16)
 
 
 if __name__ == '__main__':
