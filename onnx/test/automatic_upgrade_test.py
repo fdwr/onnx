@@ -1060,6 +1060,124 @@ class TestAutomaticUpgrade(unittest.TestCase):
             input_types=[TensorProto.FLOAT, TensorProto.FLOAT16],
             output_types=[TensorProto.FLOAT16])
 
+    def _test_window_function(self, window_function_name: Text) -> None:
+        size = helper.make_tensor('a', TensorProto.INT64, dims=[1], vals=np.array([10]))
+        self._test_op_upgrade(window_function_name,
+                              16,
+                              [[1]],
+                              [[10]],
+                              [TensorProto.INT64],
+                              initializer=[size])
+    
+    def test_BlackmanWindow(self) -> None:
+        self._test_window_function('BlackmanWindow')
+
+    def test_HannWindow(self) -> None:
+        self._test_window_function('HannWindow')
+
+    def test_HammingWindow(self) -> None:
+        self._test_window_function('HammingWindow')
+
+    def test_DFT(self) -> None:
+        self._test_op_upgrade('DFT', 16, [[2, 16]], [[2, 16, 2]])
+        self._test_op_upgrade('DFT', 16, [[2, 16, 2]], [[2, 16, 2]])
+        self._test_op_upgrade('DFT', 16, [[2, 16]], [[2, 9, 2]], attrs={'onesided': 1})
+        self._test_op_upgrade('DFT', 16, [[2, 16, 2]], [[2, 9, 2]], attrs={'onesided': 1})
+
+    def test_IDFT(self) -> None:
+        self._test_op_upgrade('IDFT', 16, [[2, 16]], [[2, 16, 2]])
+        self._test_op_upgrade('IDFT', 16, [[2, 16, 2]], [[2, 16, 2]])
+
+    def _test_short_time_fourier_transform(self, operator_name: Text) -> None:
+        # Real
+        signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64], vals=np.random.rand(2, 64).astype(np.float32))
+        frame_step   = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([8]))    
+        window       = helper.make_tensor('c', TensorProto.FLOAT, dims=[16], vals=np.ones(16).astype(np.float32))
+        frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
+        self._test_op_upgrade(operator_name,
+                              16,
+                              [[2, 64], [1]],
+                              [[2, 16, 2]],
+                              [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
+                              initializer=[signal, frame_step],
+                              optional_inputs=[window])
+
+        # Real Onesided
+        signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64], vals=np.random.rand(2, 64).astype(np.float32))
+        frame_step   = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([8]))    
+        window       = helper.make_tensor('c', TensorProto.FLOAT, dims=[16], vals=np.ones(16).astype(np.float32))
+        frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
+        self._test_op_upgrade(operator_name,
+                              16,
+                              [[2, 64], [1]],
+                              [[2, 16, 2]],
+                              [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
+                              attrs={'onesided': 1},
+                              initializer=[signal, frame_step],
+                              optional_inputs=[window])
+
+        # Complex Onesided
+        signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64, 2], vals=np.random.rand(2, 64, 2).astype(np.float32))
+        frame_step   = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([8]))    
+        window       = helper.make_tensor('c', TensorProto.FLOAT, dims=[16], vals=np.ones(16).astype(np.float32))
+        frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
+        self._test_op_upgrade(operator_name,
+                              16,
+                              [[2, 64, 2], [1]],
+                              [[2, 16, 2]],
+                              [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
+                              attrs={'onesided': 1},
+                              initializer=[signal, frame_step],
+                              optional_inputs=[window])
+
+
+        # Complex
+        signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64, 2], vals=np.random.rand(2, 64, 2).astype(np.float32))
+        frame_step   = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([8]))    
+        window       = helper.make_tensor('c', TensorProto.FLOAT, dims=[16], vals=np.ones(16).astype(np.float32))
+        frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
+        self._test_op_upgrade(operator_name,
+                              16,
+                              [[2, 64, 2], [1]],
+                              [[2, 16, 2]],
+                              [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
+                              initializer=[signal, frame_step],
+                              optional_inputs=[window])
+
+    def test_STFT(self) -> None:
+        self._test_short_time_fourier_transform('STFT')
+
+    def test_ISTFT(self) -> None:
+        self._test_short_time_fourier_transform('ISTFT')
+
+    def test_MelWeightMatrix(self) -> None:
+        num_mel_bins     = helper.make_tensor('a', TensorProto.INT64, dims=[1], vals=np.array([10]))
+        dft_length       = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([64]))
+        sample_rate      = helper.make_tensor('c', TensorProto.INT64, dims=[1], vals=np.array([0]) )
+        lower_edge_hertz = helper.make_tensor('d', TensorProto.FLOAT, dims=[1], vals=np.array([0]) )
+        upper_edge_hertz = helper.make_tensor('e', TensorProto.FLOAT, dims=[1], vals=np.array([1]) )
+
+        self._test_op_upgrade('MelWeightMatrix',
+                              16,
+                              [[1],[1],[1],[1],[1]],
+                              [[33, 10]],
+                              [TensorProto.INT64, TensorProto.INT64, TensorProto.INT64, TensorProto.FLOAT, TensorProto.FLOAT],
+                              initializer=[num_mel_bins, dft_length, sample_rate, lower_edge_hertz, upper_edge_hertz])
+
+                              
+        num_mel_bins     = helper.make_tensor('a', TensorProto.INT64, dims=[1], vals=np.array([20]))
+        dft_length       = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([31]))
+        sample_rate      = helper.make_tensor('c', TensorProto.INT64, dims=[1], vals=np.array([0]) )
+        lower_edge_hertz = helper.make_tensor('d', TensorProto.FLOAT, dims=[1], vals=np.array([0]) )
+        upper_edge_hertz = helper.make_tensor('e', TensorProto.FLOAT, dims=[1], vals=np.array([1]) )
+
+        self._test_op_upgrade('MelWeightMatrix',
+                              16,
+                              [[1],[1],[1],[1],[1]],
+                              [[16, 20]],
+                              [TensorProto.INT64, TensorProto.INT64, TensorProto.INT64, TensorProto.FLOAT, TensorProto.FLOAT],
+                              initializer=[num_mel_bins, dft_length, sample_rate, lower_edge_hertz, upper_edge_hertz])
+
     def test_ops_tested(self) -> None:
         all_schemas = onnx.defs.get_all_schemas()
         all_op_names = [schema.name for schema in all_schemas if schema.domain == '']
@@ -1077,29 +1195,12 @@ class TestAutomaticUpgrade(unittest.TestCase):
             'Optional',
             'OptionalGetElement',
             'OptionalHasElement',
-            'STFT',
-            'ISTFT',
-            'MelWeightMatrix'
         ]
         all_op_names = [op for op in all_op_names if op not in excluded_ops]
 
         untested_ops = set(all_op_names) - set(tested_ops)
+        print(untested_ops)
         assert len(untested_ops) == 0
-
-    def test_blackmanwindow(self):  # type: () -> None
-        self._test_op_upgrade('BlackmanWindow', 16)
-
-    def test_hannwindow(self):  # type: () -> None
-        self._test_op_upgrade('HannWindow', 16)
-
-    def test_hammingwindow(self):  # type: () -> None
-        self._test_op_upgrade('HammingWindow', 16)
-
-    def test_dft(self):  # type: () -> None
-        self._test_op_upgrade('DFT', 16)
-
-    def test_idft(self):  # type: () -> None
-        self._test_op_upgrade('IDFT', 16)
 
 
 if __name__ == '__main__':
