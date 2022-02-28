@@ -64,9 +64,9 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#GlobalLpPool">GlobalLpPool</a>|<a href="Changelog.md#GlobalLpPool-2">2</a>, <a href="Changelog.md#GlobalLpPool-1">1</a>|
 |<a href="#GlobalMaxPool">GlobalMaxPool</a>|<a href="Changelog.md#GlobalMaxPool-1">1</a>|
 |<a href="#Greater">Greater</a>|<a href="Changelog.md#Greater-13">13</a>, <a href="Changelog.md#Greater-9">9</a>, <a href="Changelog.md#Greater-7">7</a>, <a href="Changelog.md#Greater-1">1</a>|
+|<a href="#GridSample">GridSample</a>|<a href="Changelog.md#GridSample-16">16</a>|
 |<a href="#HammingWindow">HammingWindow</a>|<a href="Changelog.md#HammingWindow-16">16</a>|
 |<a href="#HannWindow">HannWindow</a>|<a href="Changelog.md#HannWindow-16">16</a>|
-|<a href="#GridSample">GridSample</a>|<a href="Changelog.md#GridSample-16">16</a>|
 |<a href="#HardSigmoid">HardSigmoid</a>|<a href="Changelog.md#HardSigmoid-6">6</a>, <a href="Changelog.md#HardSigmoid-1">1</a>|
 |<a href="#Hardmax">Hardmax</a>|<a href="Changelog.md#Hardmax-13">13</a>, <a href="Changelog.md#Hardmax-11">11</a>, <a href="Changelog.md#Hardmax-1">1</a>|
 |<a href="#IDFT">IDFT</a>|<a href="Changelog.md#IDFT-16">16</a>|
@@ -134,7 +134,6 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#RoiAlign">RoiAlign</a>|<a href="Changelog.md#RoiAlign-16">16</a>, <a href="Changelog.md#RoiAlign-10">10</a>|
 |<a href="#Round">Round</a>|<a href="Changelog.md#Round-11">11</a>|
 |<a href="#STFT">STFT</a>|<a href="Changelog.md#STFT-16">16</a>|
-|<a href="#Scan">Scan</a>|<a href="Changelog.md#Scan-11">11</a>, <a href="Changelog.md#Scan-9">9</a>, <a href="Changelog.md#Scan-8">8</a>|
 |<a href="#Scan">Scan</a>|<a href="Changelog.md#Scan-16">16</a>, <a href="Changelog.md#Scan-11">11</a>, <a href="Changelog.md#Scan-9">9</a>, <a href="Changelog.md#Scan-8">8</a>|
 |<a href="#Scatter">Scatter</a> (deprecated)|<a href="Changelog.md#Scatter-11">11</a>, <a href="Changelog.md#Scatter-9">9</a>|
 |<a href="#ScatterElements">ScatterElements</a>|<a href="Changelog.md#ScatterElements-16">16</a>, <a href="Changelog.md#ScatterElements-13">13</a>, <a href="Changelog.md#ScatterElements-11">11</a>|
@@ -7697,9 +7696,6 @@ Other versions of this operator: <a href="Changelog.md#GreaterOrEqual-12">12</a>
 </dl>
 
 
-### <a name="HammingWindow"></a><a name="hammingwindow">**HammingWindow**</a>
-
-  Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
 ### <a name="GridSample"></a><a name="gridsample">**GridSample**</a>
 
   Given an `input` and a flow-field `grid`, computes the `output` using `input` values and pixel locations from `grid`.
@@ -7718,8 +7714,6 @@ This version of the operator has been available since version 16 of the default 
 #### Attributes
 
 <dl>
-<dt><tt>output_datatype</tt> : int (default is 1)</dt>
-<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
 <dt><tt>align_corners</tt> : int (default is 0)</dt>
 <dd>If align_corners=1, the extrema (-1 and 1) are considered as referring to the center points of the input's corner pixels. If align_corners=0, they are instead considered as referring to the corner points of the input's corner pixels, making the sampling more resolution agnostic.</dd>
 <dt><tt>mode</tt> : string (default is bilinear)</dt>
@@ -7731,8 +7725,6 @@ This version of the operator has been available since version 16 of the default 
 #### Inputs
 
 <dl>
-<dt><tt>size</tt> (non-differentiable) : T1</dt>
-<dd>A scalar value indicating the length of the window.</dd>
 <dt><tt>X</tt> (differentiable) : T1</dt>
 <dd>4-D tensor of shape (N, C, H, W), where N is the batch size, C is the numbers of channels, H and W are the height and width of the input data.</dd>
 <dt><tt>grid</tt> (non-differentiable) : T1</dt>
@@ -7742,8 +7734,6 @@ This version of the operator has been available since version 16 of the default 
 #### Outputs
 
 <dl>
-<dt><tt>output</tt> (non-differentiable) : T2</dt>
-<dd>A Hann window with length: size. The output has the shape: [size].</dd>
 <dt><tt>Y</tt> (differentiable) : T2</dt>
 <dd>4-D tensor of shape (N, C, H_out, W_out).</dd>
 </dl>
@@ -7751,50 +7741,6 @@ This version of the operator has been available since version 16 of the default 
 #### Type Constraints
 
 <dl>
-<dt><tt>T1</tt> : tensor(int64)</dt>
-<dd>Constrain the input size to int64_t.</dd>
-<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrain output types to numeric tensors.</dd>
-</dl>
-
-
-### <a name="HannWindow"></a><a name="hannwindow">**HannWindow**</a>
-
-  Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
-
-#### Version
-
-This version of the operator has been available since version 16 of the default ONNX operator set.
-
-#### Attributes
-
-<dl>
-<dt><tt>output_datatype</tt> : int (default is 1)</dt>
-<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
-</dl>
-
-#### Inputs
-
-<dl>
-<dt><tt>size</tt> (non-differentiable) : T1</dt>
-<dd>A scalar value indicating the length of the window.</dd>
-</dl>
-
-#### Outputs
-
-<dl>
-<dt><tt>output</tt> (non-differentiable) : T2</dt>
-<dd>A Hann window with length: size. The output has the shape: [size].</dd>
-</dl>
-
-#### Type Constraints
-
-<dl>
-<dt><tt>T1</tt> : tensor(int64)</dt>
-<dd>Constrain the input size to int64_t.</dd>
-<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrain output types to numeric tensors.</dd>
-</dl>
 <dt><tt>T1</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
 <dd>Constrain input types to all tensor types.</dd>
 <dt><tt>T2</tt> : tensor(float16), tensor(float), tensor(double)</dt>
@@ -8155,6 +8101,84 @@ expect(node, inputs=[X, Grid], outputs=[Y_reflection],
 ```
 
 </details>
+
+
+### <a name="HammingWindow"></a><a name="hammingwindow">**HammingWindow**</a>
+
+  Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>output_datatype</tt> : int (default is 1)</dt>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>size</tt> (non-differentiable) : T1</dt>
+<dd>A scalar value indicating the length of the window.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T2</dt>
+<dd>A Hann window with length: size. The output has the shape: [size].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(int64)</dt>
+<dd>Constrain the input size to int64_t.</dd>
+<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain output types to numeric tensors.</dd>
+</dl>
+
+
+### <a name="HannWindow"></a><a name="hannwindow">**HannWindow**</a>
+
+  Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>output_datatype</tt> : int (default is 1)</dt>
+<dd>The data type of the output tensor. Strictly must be one of the values from DataType enum in TensorProto whose values correspond to T2. The default value is 1 = FLOAT. </dd>
+</dl>
+
+#### Inputs
+
+<dl>
+<dt><tt>size</tt> (non-differentiable) : T1</dt>
+<dd>A scalar value indicating the length of the window.</dd>
+</dl>
+
+#### Outputs
+
+<dl>
+<dt><tt>output</tt> (non-differentiable) : T2</dt>
+<dd>A Hann window with length: size. The output has the shape: [size].</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>T1</tt> : tensor(int64)</dt>
+<dd>Constrain the input size to int64_t.</dd>
+<dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
+<dd>Constrain output types to numeric tensors.</dd>
+</dl>
 
 
 ### <a name="HardSigmoid"></a><a name="hardsigmoid">**HardSigmoid**</a>
@@ -11827,11 +11851,11 @@ expect(node, inputs=[input_data], outputs=[expected_output],
 
   Generate a MelWeightMatrix that can be used to re-weight a Tensor containing a linearly sampled frequency spectra (from DFT or STFT) into num_mel_bins frequency information based on the [lower_edge_hertz, upper_edge_hertz] range on the mel scale.
   This function defines the mel scale in terms of a frequency in hertz according to the following formula:
-      
+
       mel(f) = 2595 * log10(1 + f/700)
-  
+
   In the returned matrix, all the triangles (filterbanks) have a peak value of 1.0.
-  
+
   The returned MelWeightMatrix can be used to right-multiply a spectrogram S of shape [frames, num_spectrogram_bins] of linear scale spectrum values (e.g. STFT magnitudes) to generate a "mel spectrogram" M of shape [frames, num_mel_bins].
 
 #### Version
