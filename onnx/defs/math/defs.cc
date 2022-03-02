@@ -3644,7 +3644,29 @@ ONNX_OPERATOR_SET_SCHEMA(
         .TypeConstraint(
             "T2",
             OpSchema::all_numeric_types_with_bfloat(),
-            "Constrain output types to numeric tensors."));
+            "Constrain output types to numeric tensors.")
+        .FunctionBody(R"ONNX(
+        {
+          A0 = Constant <value = float {0.5}>()
+          A1 = Constant <value = float {0.5}>()
+          A2 = Constant <value = float {0.0}>()
+          Zero = Constant <value = float {0.0}>()
+          One = Constant <value = float {1.0}>()
+          Two = Constant <value = float {2.0}>()
+          Tau = Constant <value = float {6.2831853}>()
+          AngularIncrement = Div (Tau, size)
+          Range = Range (Zero, size, One)
+          RangeAngular = Mul (Range, AngularIncrement)
+          TwoRangeAngular = Mul (RangeAngular, Two)
+          CosTwoRangeAngular = Cos (TwoRangeAngular)
+          A2_Component = Mul (A2, CosTwoRangeAngular)
+          CosRangeAngular = Cos (RangeAngular)
+          A1_Component = Mul (A1, CosRangeAngular)
+          output = Add (A1_Component, A2_Component)
+          output = Sub (A0, output)
+        }
+        )ONNX"
+        ));
 
 ONNX_OPERATOR_SET_SCHEMA(
     HammingWindow,
@@ -3658,7 +3680,29 @@ ONNX_OPERATOR_SET_SCHEMA(
         .TypeConstraint(
             "T2",
             OpSchema::all_numeric_types_with_bfloat(),
-            "Constrain output types to numeric tensors."));
+            "Constrain output types to numeric tensors.")
+        .FunctionBody(R"ONNX(
+        {
+          A0 = Constant <value = float {0.54347826087}>()
+          A1 = Constant <value = float {0.45652173913}>()
+          A2 = Constant <value = float {0.0}>()
+          Zero = Constant <value = float {0.0}>()
+          One = Constant <value = float {1.0}>()
+          Two = Constant <value = float {2.0}>()
+          Tau = Constant <value = float {6.2831853}>()
+          AngularIncrement = Div (Tau, size)
+          Range = Range (Zero, size, One)
+          RangeAngular = Mul (Range, AngularIncrement)
+          TwoRangeAngular = Mul (RangeAngular, Two)
+          CosTwoRangeAngular = Cos (TwoRangeAngular)
+          A2_Component = Mul (A2, CosTwoRangeAngular)
+          CosRangeAngular = Cos (RangeAngular)
+          A1_Component = Mul (A1, CosRangeAngular)
+          output = Add (A1_Component, A2_Component)
+          output = Sub (A0, output)
+        }
+        )ONNX"
+        ));
 
 ONNX_OPERATOR_SET_SCHEMA(
     BlackmanWindow,
@@ -3672,7 +3716,29 @@ ONNX_OPERATOR_SET_SCHEMA(
         .TypeConstraint(
             "T2",
             OpSchema::all_numeric_types_with_bfloat(),
-            "Constrain output types to numeric tensors."));
+            "Constrain output types to numeric tensors.")
+        .FunctionBody(R"ONNX(
+        {
+          A0 = Constant <value = float {0.42}>()
+          A1 = Constant <value = float {0.5}>()
+          A2 = Constant <value = float {0.08}>()
+          Zero = Constant <value = float {0.0}>()
+          One = Constant <value = float {1.0}>()
+          Two = Constant <value = float {2.0}>()
+          Tau = Constant <value = float {6.2831853}>()
+          AngularIncrement = Div (Tau, size)
+          Range = Range (Zero, size, One)
+          RangeAngular = Mul (Range, AngularIncrement)
+          TwoRangeAngular = Mul (RangeAngular, Two)
+          CosTwoRangeAngular = Cos (TwoRangeAngular)
+          A2_Component = Mul (A2, CosTwoRangeAngular)
+          CosRangeAngular = Cos (RangeAngular)
+          A1_Component = Mul (A1, CosRangeAngular)
+          output = Add (A1_Component, A2_Component)
+          output = Sub (A0, output)
+        }
+        )ONNX"
+        ));
 
 static const char* MelWeightMatrix_ver16_doc = R"DOC(
 Generate a MelWeightMatrix that can be used to re-weight a Tensor containing a linearly sampled frequency spectra (from DFT or STFT) into num_mel_bins frequency information based on the [lower_edge_hertz, upper_edge_hertz] range on the mel scale.
@@ -3864,7 +3930,6 @@ static const char* STFT_ver16_doc =
                 // Add 2 dimensions to the rank for the batch size dimension AND component dimension
                 auto complex_inputs_ndim = signal_ndim + batch_ndim + component_ndim;
 
-                printf("Get Inputs\n");
                 // Get inputs
                 auto& input_shape = getInputShape(ctx, 0);
                 auto frame_step = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(1));
