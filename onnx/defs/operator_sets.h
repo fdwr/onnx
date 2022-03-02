@@ -1013,7 +1013,6 @@ class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, HammingWindow);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, BlackmanWindow);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, MelWeightMatrix);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, STFT);
-class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, ISTFT);
 
 // Iterate over schema from ai.onnx version 16
 class OpSet_Onnx_ver16 {
@@ -1039,7 +1038,6 @@ class OpSet_Onnx_ver16 {
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, BlackmanWindow)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, MelWeightMatrix)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, STFT)>());
-    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 16, ISTFT)>());
   }
 };
 inline void RegisterOnnxOperatorSetSchema() {

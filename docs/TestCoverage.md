@@ -6,7 +6,7 @@
 * [Overall Test Coverage](#overall-test-coverage)
 # Node Test Coverage
 ## Summary
-Node tests have covered 154/177 (87.01%, 5 generators excluded) common operators.
+Node tests have covered 154/176 (87.50%, 5 generators excluded) common operators.
 
 Node tests have covered 0/0 (N/A) experimental operators.
 
@@ -17,7 +17,143 @@ Node tests have covered 0/0 (N/A) experimental operators.
 
 ## &#x1F49A;Covered Common Operators
 ### Abs
-There are 1 test cases, listed as following:
+There are 9 test cases, listed as following:
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
 <details>
 <summary>abs</summary>
 
@@ -15578,9 +15714,6 @@ expect(node, inputs=[x, y], outputs=[z],
 
 
 ### IDFT (call for test cases)
-
-
-### ISTFT (call for test cases)
 
 
 ### LessOrEqual (call for test cases)

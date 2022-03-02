@@ -20122,50 +20122,6 @@ This version of the operator has been available since version 16 of the default 
 <dd>Constrain input and output types to float tensors.</dd>
 </dl>
 
-### <a name="ISTFT-16"></a>**ISTFT-16**</a>
-
-  Computes the inverse Short-time Fourier Transform of the signal.
-
-#### Version
-
-This version of the operator has been available since version 16 of the default ONNX operator set.
-
-#### Attributes
-
-<dl>
-<dt><tt>onesided</tt> : int (default is 0)</dt>
-<dd>Whether the STFT was onesided.Values can be 0 or 1.</dd>
-</dl>
-
-#### Inputs (2 - 4)
-
-<dl>
-<dt><tt>signal</tt> (non-differentiable) : T1</dt>
-<dd>The input tensor. Expected to be output of STFT(). The following shape is expected: [batch_size][signal_length][2], where [batch_size][signal_length][0] represents the real component and [batch_size][signal_length][1] represents the imaginary component of the signal.</dd>
-<dt><tt>frame_step</tt> (non-differentiable) : T2</dt>
-<dd>The number of samples to step between successive DFTs.</dd>
-<dt><tt>window</tt> (optional, non-differentiable) : T1</dt>
-<dd>A tensor representing the window that was used.The window must have rank 1 with shape: [window_shape].It's an optional value.</dd>
-<dt><tt>frame_length</tt> (optional, non-differentiable) : T2</dt>
-<dd>A scalar representing the size of the DFT. It's an optional value.</dd>
-</dl>
-
-#### Outputs
-
-<dl>
-<dt><tt>output</tt> (non-differentiable) : T1</dt>
-<dd>The approximation of the inverse STFT of the input as given by the least squares estimation of the original signal.The output has the shape: [batch_size][signal_length][2].</dd>
-</dl>
-
-#### Type Constraints
-
-<dl>
-<dt><tt>T1</tt> : tensor(float), tensor(float16), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrain signal and output to float tensors.</dd>
-<dt><tt>T2</tt> : tensor(int64)</dt>
-<dd>Constrain scalar length types to int64_t.</dd>
-</dl>
-
 ### <a name="Identity-16"></a>**Identity-16**</a>
 
   Identity operator

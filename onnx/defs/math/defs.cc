@@ -3766,7 +3766,6 @@ The returned MelWeightMatrix can be used to right-multiply a spectrogram S of sh
                 auto dft_length = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(1));
                 if (num_mel_bins > 0 && dft_length > 0) {
                     ONNX_NAMESPACE::TensorShapeProto result_shape;
-                    // Figure out how to specify one-sided???
                     result_shape.add_dim()->set_dim_value(static_cast<int64_t>((dft_length >> 1) + 1));
                     result_shape.add_dim()->set_dim_value(num_mel_bins);
                     updateOutputShape(ctx, 0, result_shape);
@@ -3850,77 +3849,92 @@ static const char* STFT_ver16_doc =
             .TypeConstraint(
                 "T2",
                 {"tensor(int64)"},
-                "Constrain scalar length types to int64_t."));
+                "Constrain scalar length types to int64_t.")
+            .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+                propagateElemTypeFromInputToOutput(ctx, 0, 0);
+                constexpr int64_t batch_ndim = 1;
+                constexpr int64_t component_ndim = 1;
 
+                // To support multidimensional DFT the signal_ndim may != 1,
+                // but this attribute is not included on the schema yet
+                const auto signal_ndim = 1;
 
-static const char* ISTFT_ver16_doc =
-    R"DOC(Computes the inverse Short-time Fourier Transform of the signal.)DOC";
+                // Add 1 dimensions to the rank for the batch size dimension
+                auto real_inputs_ndim = signal_ndim + batch_ndim;
+                // Add 2 dimensions to the rank for the batch size dimension AND component dimension
+                auto complex_inputs_ndim = signal_ndim + batch_ndim + component_ndim;
 
-    ONNX_OPERATOR_SET_SCHEMA(ISTFT,
-        16,
-        OpSchema()
-            .SetDoc(ISTFT_ver16_doc)
-            .Attr(
-                "onesided",
-                "Whether the STFT was onesided."
-                "Values can be 0 or 1.",
-                AttributeProto::INT,
-                static_cast<int64_t>(0))
-            .Input(0,
-                   "signal",
-                   "The input tensor. Expected to be output of STFT(). "
-                   "The following shape is expected: [batch_size][signal_length][2], where " 
-                   "[batch_size][signal_length][0] represents the real component and [batch_size][signal_length][1] represents the imaginary component of the signal.",
-                   "T1",
-                   OpSchema::Single,
-                   true,
-                   1,
-                   OpSchema::NonDifferentiable)
-            .Input(1,
-                   "frame_step",
-                   "The number of samples to step between successive DFTs.",
-                   "T2",
-                   OpSchema::Single,
-                   true,
-                   1,
-                   OpSchema::NonDifferentiable)
-            .Input(2,
-                   "window",
-                   "A tensor representing the window that was used."
-                   "The window must have rank 1 with shape: [window_shape]."
-                   "It's an optional value.",
-                   "T1",
-                   OpSchema::Optional,
-                   true,
-                   1,
-                   OpSchema::NonDifferentiable)
-            .Input(3,
-                   "frame_length",
-                   "A scalar representing the size of the DFT. "
-                   "It's an optional value.",
-                   "T2",
-                   OpSchema::Optional,
-                   true,
-                   1,
-                   OpSchema::NonDifferentiable)
-            .Output(0,
-                   "output",
-                   "The approximation of the inverse STFT of the input as given by the least squares estimation of the original signal."
-                   "The output has the shape: [batch_size][signal_length][2].",
-                   "T1",
-                   OpSchema::Single,
-                   true,
-                   1,
-                   OpSchema::NonDifferentiable)
-            .TypeConstraint(
-                "T1",
-                {"tensor(float)",
-                 "tensor(float16)",
-                 "tensor(double)",
-                 "tensor(bfloat16)"},
-                "Constrain signal and output to float tensors.")
-            .TypeConstraint(
-                "T2",
-                {"tensor(int64)"},
-                "Constrain scalar length types to int64_t."));
+                printf("Get Inputs\n");
+                // Get inputs
+                auto& input_shape = getInputShape(ctx, 0);
+                auto frame_step = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(1));
+                const TensorShapeProto* window_input = nullptr;
+                try {
+                    window_input = getOptionalInputShape(ctx, 2);
+                } catch (...)
+                {
+                    window_input = nullptr;
+                }
+
+                const TensorShapeProto* frame_length_input = nullptr;
+                try {
+                    frame_length_input = getOptionalInputShape(ctx, 3);
+                } catch (...)
+                {
+                    frame_length_input = nullptr;
+                }
+
+                // Get real or complex inputs
+                auto dim_size = static_cast<int64_t>(input_shape.dim_size());
+                auto is_real = dim_size == real_inputs_ndim;
+                auto is_complex = dim_size == complex_inputs_ndim;
+                
+                // Determine the size of the DFT based on the 2 optional inputs window and frame_length. One must be set.
+                int64_t dft_size = 0;
+                if (window_input == nullptr && frame_length_input == nullptr)
+                {
+                    fail_type_inference("STFT expects to have at least one of these inputs set: [window, frame_length].");
+                } else if (window_input != nullptr && frame_length_input != nullptr)
+                {
+                    if (window_input->dim_size() != 1)
+                    {
+                        fail_type_inference("STFT's window input, must have rank = 1.");
+                    }
+                    auto window_length = window_input->dim(0).dim_value();
+                    auto frame_length = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(3));
+                    if (window_length != frame_length)
+                    {
+                        fail_type_inference("If STFT has both a window input and frame_length specified, the dimension of the window must match the frame_length specified!");
+                    }
+                    dft_size = window_length;
+                } else if (window_input != nullptr)
+                {
+                    if (window_input->dim_size() != 1)
+                    {
+                        fail_type_inference("STFT's window input, must have rank = 1.");
+                    }
+                    dft_size = window_input->dim(0).dim_value();
+                } else if (frame_length_input != nullptr)
+                {
+                    dft_size = get_scalar_value_from_tensor<int64_t>(ctx.getInputData(3));
+                }
+
+                bool is_onesided = static_cast<bool>(getAttribute(ctx, "onesided", 0));
+                if (is_onesided) {
+                    dft_size = is_onesided ? ((dft_size >> 1) + 1) : dft_size;
+                }
+
+                // Since signal_ndim = 1, and multidimensional DFT is not supported,
+                // only the single signal dim (1) needs to be updated
+                auto signal_size = input_shape.dim(1).dim_value();
+                auto n_dfts = static_cast<int64_t>(std::floor((signal_size - dft_size) / static_cast<float>(frame_step)) + 1);
+
+                // The output has the following shape: [batch_size][frames][dft_unique_bins][2]
+                ONNX_NAMESPACE::TensorShapeProto result_shape_proto;
+                result_shape_proto.add_dim()->set_dim_value(input_shape.dim(0).dim_value()); // batch size
+                result_shape_proto.add_dim()->set_dim_value(n_dfts);
+                result_shape_proto.add_dim()->set_dim_value(dft_size);
+                result_shape_proto.add_dim()->set_dim_value(2);
+                updateOutputShape(ctx, 0, result_shape_proto);
+            }));
 } // namespace ONNX_NAMESPACE

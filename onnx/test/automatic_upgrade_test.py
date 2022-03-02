@@ -1147,9 +1147,6 @@ class TestAutomaticUpgrade(unittest.TestCase):
     def test_STFT(self) -> None:
         self._test_short_time_fourier_transform('STFT')
 
-    def test_ISTFT(self) -> None:
-        self._test_short_time_fourier_transform('ISTFT')
-
     def test_MelWeightMatrix(self) -> None:
         num_mel_bins     = helper.make_tensor('a', TensorProto.INT64, dims=[1], vals=np.array([10]))
         dft_length       = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([64]))

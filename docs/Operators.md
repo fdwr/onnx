@@ -70,7 +70,6 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#HardSigmoid">HardSigmoid</a>|<a href="Changelog.md#HardSigmoid-6">6</a>, <a href="Changelog.md#HardSigmoid-1">1</a>|
 |<a href="#Hardmax">Hardmax</a>|<a href="Changelog.md#Hardmax-13">13</a>, <a href="Changelog.md#Hardmax-11">11</a>, <a href="Changelog.md#Hardmax-1">1</a>|
 |<a href="#IDFT">IDFT</a>|<a href="Changelog.md#IDFT-16">16</a>|
-|<a href="#ISTFT">ISTFT</a>|<a href="Changelog.md#ISTFT-16">16</a>|
 |<a href="#Identity">Identity</a>|<a href="Changelog.md#Identity-16">16</a>, <a href="Changelog.md#Identity-14">14</a>, <a href="Changelog.md#Identity-13">13</a>, <a href="Changelog.md#Identity-1">1</a>|
 |<a href="#If">If</a>|<a href="Changelog.md#If-16">16</a>, <a href="Changelog.md#If-13">13</a>, <a href="Changelog.md#If-11">11</a>, <a href="Changelog.md#If-1">1</a>|
 |<a href="#InstanceNormalization">InstanceNormalization</a>|<a href="Changelog.md#InstanceNormalization-6">6</a>, <a href="Changelog.md#InstanceNormalization-1">1</a>|
@@ -236,6 +235,158 @@ Other versions of this operator: <a href="Changelog.md#Abs-1">1</a>, <a href="Ch
 
 
 #### Examples
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
+
+<details>
+<summary>abs</summary>
+
+```python
+node = onnx.helper.make_node(
+    'Abs',
+    inputs=['x'],
+    outputs=['y'],
+)
+x = np.random.randn(3, 4, 5).astype(np.float32)
+y = abs(x)
+
+expect(node, inputs=[x], outputs=[y],
+       name='test_abs')
+```
+
+</details>
+
 
 <details>
 <summary>abs</summary>
@@ -8494,51 +8645,6 @@ This version of the operator has been available since version 16 of the default 
 <dl>
 <dt><tt>T</tt> : tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
 <dd>Constrain input and output types to float tensors.</dd>
-</dl>
-
-
-### <a name="ISTFT"></a><a name="istft">**ISTFT**</a>
-
-  Computes the inverse Short-time Fourier Transform of the signal.
-
-#### Version
-
-This version of the operator has been available since version 16 of the default ONNX operator set.
-
-#### Attributes
-
-<dl>
-<dt><tt>onesided</tt> : int (default is 0)</dt>
-<dd>Whether the STFT was onesided.Values can be 0 or 1.</dd>
-</dl>
-
-#### Inputs (2 - 4)
-
-<dl>
-<dt><tt>signal</tt> (non-differentiable) : T1</dt>
-<dd>The input tensor. Expected to be output of STFT(). The following shape is expected: [batch_size][signal_length][2], where [batch_size][signal_length][0] represents the real component and [batch_size][signal_length][1] represents the imaginary component of the signal.</dd>
-<dt><tt>frame_step</tt> (non-differentiable) : T2</dt>
-<dd>The number of samples to step between successive DFTs.</dd>
-<dt><tt>window</tt> (optional, non-differentiable) : T1</dt>
-<dd>A tensor representing the window that was used.The window must have rank 1 with shape: [window_shape].It's an optional value.</dd>
-<dt><tt>frame_length</tt> (optional, non-differentiable) : T2</dt>
-<dd>A scalar representing the size of the DFT. It's an optional value.</dd>
-</dl>
-
-#### Outputs
-
-<dl>
-<dt><tt>output</tt> (non-differentiable) : T1</dt>
-<dd>The approximation of the inverse STFT of the input as given by the least squares estimation of the original signal.The output has the shape: [batch_size][signal_length][2].</dd>
-</dl>
-
-#### Type Constraints
-
-<dl>
-<dt><tt>T1</tt> : tensor(float), tensor(float16), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrain signal and output to float tensors.</dd>
-<dt><tt>T2</tt> : tensor(int64)</dt>
-<dd>Constrain scalar length types to int64_t.</dd>
 </dl>
 
 
