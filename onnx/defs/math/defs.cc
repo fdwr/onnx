@@ -3452,13 +3452,21 @@ static const char* DFT_ver16_doc =
                 "Values can be 0 or 1.",
                 AttributeProto::INT,
                 static_cast<int64_t>(0))
+            .Attr(
+                "axis",
+                "The axis on which to perform the DFT. By default this value is set to 0, which corresponds to the first dimension after the batch index."
+                "This value must be less than signal_dimN, where signal_dimN is the number of dimensions in the signal.",
+                AttributeProto::INT,
+                static_cast<int64_t>(0))
             .Input(
                 0,
                 "input",
-                "Input tensor representing a real or complex valued signal. "
-                "For real input, the following shape is expected: [batch_size][n_fft]. "
-                "For complex input, the following shape is expected: [batch_size][n_fft][2], where " 
-                "[batch_size][n_fft][0] represents the real component and [batch_size][n_fft][1] represents the imaginary component of the signal.",
+                "For real input, the following shape is expected: [batch_idx][n_fft]."
+                "For complex input, the following shape is expected: [batch_idx][n_fft][2]." 
+                "The final dimension represents the real and imaginary parts of the value."
+                "For real multi-dimensional input, the following shape is expected: [batch_idx][signal_dim1][signal_dim2]...[signal_dimN][1]."
+                "For complex multi-dimensional input, the following shape is expected: [batch_idx][signal_dim1][signal_dim2]...[signal_dimN][2]."
+                "The first dimension is the batch dimension.",
                 "T",
                 OpSchema::Single,
                 true,
@@ -3467,10 +3475,13 @@ static const char* DFT_ver16_doc =
             .Output(
                 0,
                 "output",
-                "The discrete Fourier transform of input. "
-                "If onesided is 1, the output has the shape: [batch_size][floor(n_fft/2)+1][2]. " 
-                "If onesided is 0, the output has the shape: [batch_size][n_fft][2]"
-                "For all types of input, the last dimension of the output represents the components of a complex number.",
+                "The Fourier Transform of the input vector."
+                "If signal_dimN = 1, and onesided is 0, [batch_idx][n_fft][2]"
+                "If signal_dimN = 1, and onesided is 1, [batch_idx][floor(n_fft/2)+1][2]" 
+                "If signal_dimN = 2, and onesided is 0 and axis = 0, [batch_idx][signal_dim1][signal_dim2][2]"
+                "If signal_dimN = 2, and onesided is 0 and axis = 1, [batch_idx][signal_dim1][signal_dim2][2]"
+                "If signal_dimN = 2, and onesided is 1 and axis = 0, [batch_idx][floor(signal_dim1/2)+1][signal_dim2][2]"
+                "If signal_dimN = 2, and onesided is 1 and axis = 1, [batch_idx][signal_dim1][floor(signal_dim2/2)+1][2]",
                 "T")
             .TypeConstraint(
                 "T",
@@ -3479,21 +3490,10 @@ static const char* DFT_ver16_doc =
             .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
                 propagateElemTypeFromInputToOutput(ctx, 0, 0);
                 const int64_t batch_ndim = 1;
-                const int64_t component_ndim = 1;
-
-                // To support multidimensional DFT the signal_ndim may != 1,
-                // but this attribute is not included on the schema yet
-                const auto signal_ndim = 1;
-
-                // Add 1 dimensions to the rank for the batch size dimension
-                auto real_inputs_ndim = signal_ndim + batch_ndim;
-                // Add 2 dimensions to the rank for the batch size dimension AND component dimension
-                auto complex_inputs_ndim = signal_ndim + batch_ndim + component_ndim;
 
                 auto& input_shape = getInputShape(ctx, 0);
                 auto dim_size = static_cast<int64_t>(input_shape.dim_size());
-                auto is_real = dim_size == real_inputs_ndim;
-                auto is_complex = dim_size == complex_inputs_ndim;
+                auto has_component_dimension = dim_size > 2; 
 
                 ONNX_NAMESPACE::TensorShapeProto result_shape_proto = input_shape;
                 
@@ -3505,14 +3505,10 @@ static const char* DFT_ver16_doc =
                     result_shape_proto.mutable_dim(1)->set_dim_value((n_fft >> 1) + 1);
                 }
         
-                if (is_real) {
-                    // For real input: the output is same shape, but with extra dim to represent complex output (real/imaginary)
-                    result_shape_proto.add_dim()->set_dim_value(2);  
-                } else if (is_complex) {
-                    // For complex input: do nothing
+                if (has_component_dimension) {
+                    result_shape_proto.mutable_dim(static_cast<int>(dim_size - 1))->set_dim_value(2);
                 } else {
-                    fail_shape_inference(
-                        "The input_shape must [batch_size][n_fft] for real values or [batch_size][n_fft][2] for complex values.")
+                    result_shape_proto.add_dim()->set_dim_value(2);  
                 }
 
                 updateOutputShape(ctx, 0, result_shape_proto);
@@ -3525,13 +3521,20 @@ static const char* IDFT_ver16_doc =
         16,
         OpSchema()
             .SetDoc(IDFT_ver16_doc)
+            .Attr("axis",
+                "The axis on which to perform the DFT. By default this value is set to 0, which corresponds to the first dimension after the batch index."
+                "This value must be less than signal_dimN, where signal_dimN is the number of dimensions in the signal.",
+                AttributeProto::INT,
+                static_cast<int64_t>(0))
             .Input(
                 0,
                 "input",
-                "Input tensor representing a real or complex valued signal. "
-                "For real input, the following shape is expected: [batch_size][n_fft]. "
-                "For complex input, the following shape is expected: [batch_size][n_fft][2], where " 
-                "[batch_size][n_fft][0] represents the real component and [batch_size][n_fft][1] represents the imaginary component of the signal.",
+                "For real input, the following shape is expected: [batch_idx][n_fft]."
+                "For complex input, the following shape is expected: [batch_idx][n_fft][2]." 
+                "The final dimension represents the real and imaginary parts of the value."
+                "For real multi-dimensional input, the following shape is expected: [batch_idx][signal_dim1][signal_dim2]...[signal_dimN][1]."
+                "For complex multi-dimensional input, the following shape is expected: [batch_idx][signal_dim1][signal_dim2]...[signal_dimN][2]."
+                "The first dimension is the batch dimension.",
                 "T",
                 OpSchema::Single,
                 true,
@@ -3540,8 +3543,10 @@ static const char* IDFT_ver16_doc =
             .Output(
                 0,
                 "output",
-                "The inverse 1-dimensional discrete Fourier transform of the input. "
-                "The output has the shape: [batch_size][n_fft][2]"
+                "The inverse discrete Fourier transform of the input. "
+                "If signal_dimN = 1, [batch_idx][n_fft][2]"
+                "If signal_dimN = 2 and axis = 0, [batch_idx][signal_dim1][signal_dim2][2]"
+                "If signal_dimN = 2 and axis = 1, [batch_idx][signal_dim1][signal_dim2][2]"
                 "For all types of input, the last dimension of the output represents the components of a complex number.",
                 "T",
                 OpSchema::Single,
@@ -3555,31 +3560,16 @@ static const char* IDFT_ver16_doc =
             .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
                 propagateElemTypeFromInputToOutput(ctx, 0, 0);
                 const int64_t batch_ndim = 1;
-                const int64_t component_ndim = 1;
-                
-                // To support multidimensional DFT the signal_ndim may != 1,
-                // but this attribute is not included on the schema yet
-                const auto signal_ndim = 1;
-
-                // Add 1 dimensions to the rank for the batch size dimension
-                auto real_inputs_ndim = signal_ndim + batch_ndim;
-                // Add 2 dimensions to the rank for the batch size dimension AND component dimension
-                auto complex_inputs_ndim = signal_ndim + batch_ndim + component_ndim;
                 
                 auto& input_shape = getInputShape(ctx, 0);
                 ONNX_NAMESPACE::TensorShapeProto result_shape = input_shape;
                 auto dim_size = static_cast<int64_t>(input_shape.dim_size());
-                auto is_real = dim_size == real_inputs_ndim;
-                auto is_complex = dim_size == complex_inputs_ndim;
+                auto has_component_dimension = dim_size > 2; 
 
-                if (is_real) {
-                    // For real input: the output is same shape, but with extra dim to represent complex output (real/imaginary)
-                    result_shape.add_dim()->set_dim_value(2);
-                } else if (is_complex) {
-                    // For complex input: do nothing
+                if (has_component_dimension) {
+                  result_shape.mutable_dim(static_cast<int>(dim_size - 1))->set_dim_value(2);
                 } else {
-                  fail_shape_inference(
-                        "The input_shape must [batch_size][n_fft] for real values or [batch_size][n_fft][2] for complex values.")
+                  result_shape.add_dim()->set_dim_value(2);  
                 }
 
                 updateOutputShape(ctx, 0, result_shape);
@@ -3853,10 +3843,10 @@ static const char* STFT_ver16_doc =
                 "the real-to-complex Fourier transform satisfies the conjugate symmetry, i.e., X[m, w] = X[m,w]=X[m,n_fft-w]*. "
                 "Note if the input or window tensors are complex, then onesided output is not possible. "
                 "Enabling onesided with real inputs performs a Real-valued fast Fourier transform (RFFT)."
-                "When invoked with real or complex valued input, the default value is 0. "
+                "When invoked with real or complex valued input, the default value is 1. "
                 "Values can be 0 or 1.",
                 AttributeProto::INT,
-                static_cast<int64_t>(0))
+                static_cast<int64_t>(1))
             .Input(0,
                    "signal",
                    "Input tensor representing a real or complex valued signal. "
