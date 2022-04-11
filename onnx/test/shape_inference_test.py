@@ -4044,6 +4044,43 @@ class TestShapeInference(unittest.TestCase):
             [make_tensor_value_info('shape', TensorProto.FLOAT, (2, 5, )),
              make_tensor_value_info('y', TensorProto.FLOAT, (2, 5, 2))])  # type: ignore
 
+    def test_dft_reals2(self):  # type: () -> None
+        graph = self._make_graph([],
+            [make_node("Constant", [], ['input'],
+                       value=make_tensor('input', TensorProto.FLOAT, (1, 5, 10, 1,), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4))),
+             make_node("DFT", ['input'], ['output'], axis=0, onesided=1)],
+            [])
+        self._assert_inferred(graph,
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (1, 5, 10, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (1, 3, 10, 2))])  # type: ignore
+
+        graph = self._make_graph([],
+            [make_node("Constant", [], ['input'],
+                       value=make_tensor('input', TensorProto.FLOAT, (1, 5, 10, 1,), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4))),
+             make_node("DFT", ['input'], ['output'], axis=1, onesided=1)],
+            [])
+        self._assert_inferred(graph,
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (1, 5, 10, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (1, 5, 6, 2))])  # type: ignore
+
+        graph = self._make_graph([],
+            [make_node("Constant", [], ['input'],
+                       value=make_tensor('input', TensorProto.FLOAT, (1, 5, 10, 1,), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4))),
+             make_node("DFT", ['input'], ['output'], axis=0, onesided=0)],
+            [])
+        self._assert_inferred(graph,
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (1, 5, 10, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (1, 5, 10, 2))])  # type: ignore
+
+        graph = self._make_graph([],
+            [make_node("Constant", [], ['input'],
+                       value=make_tensor('input', TensorProto.FLOAT, (1, 5, 10, 1,), (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4))),
+             make_node("DFT", ['input'], ['output'], axis=1, onesided=0)],
+            [])
+        self._assert_inferred(graph,
+            [make_tensor_value_info('shape', TensorProto.FLOAT, (1, 5, 10, )),
+             make_tensor_value_info('y', TensorProto.FLOAT, (1, 5, 10, 2))])  # type: ignore
+
     def test_dft_complex(self):  # type: () -> None
         graph = self._make_graph([],
             [make_node("Constant", [], ['input'],

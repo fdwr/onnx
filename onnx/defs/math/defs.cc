@@ -3497,12 +3497,13 @@ static const char* DFT_ver16_doc =
 
                 ONNX_NAMESPACE::TensorShapeProto result_shape_proto = input_shape;
                 
+                bool axis = static_cast<bool>(getAttribute(ctx, "axis", 0));
                 bool is_onesided = static_cast<bool>(getAttribute(ctx, "onesided", 0));
                 if (is_onesided) {
                     // Since signal_ndim = 1, and multidimensional DFT is not supported,
                     // only the single signal dim (1) needs to be updated
-                    auto n_fft = input_shape.dim(1).dim_value();
-                    result_shape_proto.mutable_dim(1)->set_dim_value((n_fft >> 1) + 1);
+                    auto n_fft = input_shape.dim(1 + axis).dim_value();
+                    result_shape_proto.mutable_dim(1 + axis)->set_dim_value((n_fft >> 1) + 1);
                 }
         
                 if (has_component_dimension) {
@@ -3510,7 +3511,7 @@ static const char* DFT_ver16_doc =
                 } else {
                     result_shape_proto.add_dim()->set_dim_value(2);  
                 }
-
+                
                 updateOutputShape(ctx, 0, result_shape_proto);
             }));
 
@@ -3644,16 +3645,18 @@ ONNX_OPERATOR_SET_SCHEMA(
           One = Constant <value = float {1.0}>()
           Two = Constant <value = float {2.0}>()
           Tau = Constant <value = float {6.2831853}>()
-          AngularIncrement = Div (Tau, size)
-          Range = Range (Zero, size, One)
+          Size_FP = Cast <to = 1> (size)
+          AngularIncrement = Div (Tau, Size_FP)
+          Range = Range (Zero, Size_FP, One)
           RangeAngular = Mul (Range, AngularIncrement)
           TwoRangeAngular = Mul (RangeAngular, Two)
           CosTwoRangeAngular = Cos (TwoRangeAngular)
           A2_Component = Mul (A2, CosTwoRangeAngular)
           CosRangeAngular = Cos (RangeAngular)
           A1_Component = Mul (A1, CosRangeAngular)
-          output = Add (A1_Component, A2_Component)
-          output = Sub (A0, output)
+          Temp0 = Add (A1_Component, A2_Component)
+          Temp1 = Sub (A0, Temp)
+          output = Cast <to = output_datatype> (Temp1)
         }
         )ONNX"
         ));
@@ -3680,16 +3683,18 @@ ONNX_OPERATOR_SET_SCHEMA(
           One = Constant <value = float {1.0}>()
           Two = Constant <value = float {2.0}>()
           Tau = Constant <value = float {6.2831853}>()
-          AngularIncrement = Div (Tau, size)
-          Range = Range (Zero, size, One)
+          Size_FP = Cast <to = 1> (size)
+          AngularIncrement = Div (Tau, Size_FP)
+          Range = Range (Zero, Size_FP, One)
           RangeAngular = Mul (Range, AngularIncrement)
           TwoRangeAngular = Mul (RangeAngular, Two)
           CosTwoRangeAngular = Cos (TwoRangeAngular)
           A2_Component = Mul (A2, CosTwoRangeAngular)
           CosRangeAngular = Cos (RangeAngular)
           A1_Component = Mul (A1, CosRangeAngular)
-          output = Add (A1_Component, A2_Component)
-          output = Sub (A0, output)
+          Temp0 = Add (A1_Component, A2_Component)
+          Temp1 = Sub (A0, Temp)
+          output = Cast <to = output_datatype> (Temp1)
         }
         )ONNX"
         ));
@@ -3716,16 +3721,18 @@ ONNX_OPERATOR_SET_SCHEMA(
           One = Constant <value = float {1.0}>()
           Two = Constant <value = float {2.0}>()
           Tau = Constant <value = float {6.2831853}>()
-          AngularIncrement = Div (Tau, size)
-          Range = Range (Zero, size, One)
+          Size_FP = Cast <to = 1> (size)
+          AngularIncrement = Div (Tau, Size_FP)
+          Range = Range (Zero, Size_FP, One)
           RangeAngular = Mul (Range, AngularIncrement)
           TwoRangeAngular = Mul (RangeAngular, Two)
           CosTwoRangeAngular = Cos (TwoRangeAngular)
           A2_Component = Mul (A2, CosTwoRangeAngular)
           CosRangeAngular = Cos (RangeAngular)
           A1_Component = Mul (A1, CosRangeAngular)
-          output = Add (A1_Component, A2_Component)
-          output = Sub (A0, output)
+          Temp0 = Add (A1_Component, A2_Component)
+          Temp1 = Sub (A0, Temp)
+          output = Cast <to = output_datatype> (Temp1)
         }
         )ONNX"
         ));
