@@ -187,6 +187,7 @@ For an operator input/output's differentiability, it can be differentiable,
 |<a href="#MeanVarianceNormalization">MeanVarianceNormalization</a>|<a href="Changelog.md#MeanVarianceNormalization-13">13</a>, <a href="Changelog.md#MeanVarianceNormalization-9">9</a>|
 |<a href="#NegativeLogLikelihoodLoss">NegativeLogLikelihoodLoss</a>|<a href="Changelog.md#NegativeLogLikelihoodLoss-13">13</a>, <a href="Changelog.md#NegativeLogLikelihoodLoss-12">12</a>|
 |<a href="#Range">Range</a>|<a href="Changelog.md#Range-11">11</a>|
+|<a href="#SequenceMap">SequenceMap</a>|<a href="Changelog.md#SequenceMap-16">16</a>|
 |<a href="#Softmax">Softmax</a>|<a href="Changelog.md#Softmax-13">13</a>, <a href="Changelog.md#Softmax-11">11</a>, <a href="Changelog.md#Softmax-1">1</a>|
 |<a href="#SoftmaxCrossEntropyLoss">SoftmaxCrossEntropyLoss</a>|<a href="Changelog.md#SoftmaxCrossEntropyLoss-13">13</a>, <a href="Changelog.md#SoftmaxCrossEntropyLoss-12">12</a>|
 
@@ -414,11 +415,6 @@ expect(node, inputs=[x], outputs=[y],
 
 ```python
 # SPDX-License-Identifier: Apache-2.0
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
 import numpy as np  # type: ignore
 
@@ -673,9 +669,9 @@ Other versions of this operator: <a href="Changelog.md#And-1">1</a>
 
 <dl>
 <dt><tt>T</tt> : tensor(bool)</dt>
-<dd>Constrains input to boolean tensor.</dd>
+<dd>Constrain input to boolean tensor.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -768,8 +764,8 @@ expect(node, inputs=[x, y], outputs=[z],
 ### <a name="ArgMax"></a><a name="argmax">**ArgMax**</a>
 
   Computes the indices of the max elements of the input tensor's element along the
-  provided axis. The resulting tensor has the same rank as the input if keepdims equal 1.
-  If keepdims equal 0, then the resulting tensor have the reduced dimension pruned.
+  provided axis. The resulting tensor has the same rank as the input if keepdims equals 1.
+  If keepdims equals 0, then the resulting tensor has the reduced dimension pruned.
   If select_last_index is True (default False), the index of the last occurrence of the max
   is selected if the max appears more than once in the input. Otherwise the index of the
   first occurrence is selected.
@@ -787,7 +783,7 @@ Other versions of this operator: <a href="Changelog.md#ArgMax-1">1</a>, <a href=
 <dt><tt>axis</tt> : int (default is 0)</dt>
 <dd>The axis in which to compute the arg indices. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 <dt><tt>select_last_index</tt> : int (default is 0)</dt>
 <dd>Whether to select the last index or the first index if the {name} appears in multiple indices, default is False (first index).</dd>
 </dl>
@@ -1029,8 +1025,8 @@ expect(node, inputs=[data], outputs=[result], name='test_argmax_no_keepdims_rand
 ### <a name="ArgMin"></a><a name="argmin">**ArgMin**</a>
 
   Computes the indices of the min elements of the input tensor's element along the
-  provided axis. The resulting tensor has the same rank as the input if keepdims equal 1.
-  If keepdims equal 0, then the resulting tensor have the reduced dimension pruned.
+  provided axis. The resulting tensor has the same rank as the input if keepdims equals 1.
+  If keepdims equals 0, then the resulting tensor has the reduced dimension pruned.
   If select_last_index is True (default False), the index of the last occurrence of the min
   is selected if the min appears more than once in the input. Otherwise the index of the
   first occurrence is selected.
@@ -1048,7 +1044,7 @@ Other versions of this operator: <a href="Changelog.md#ArgMin-1">1</a>, <a href=
 <dt><tt>axis</tt> : int (default is 0)</dt>
 <dd>The axis in which to compute the arg indices. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 <dt><tt>select_last_index</tt> : int (default is 0)</dt>
 <dd>Whether to select the last index or the first index if the {name} appears in multiple indices, default is False (first index).</dd>
 </dl>
@@ -3209,7 +3205,7 @@ Other versions of this operator: <a href="Changelog.md#Compress-9">9</a>
 <dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
 <dd>Constrain input and output types to all tensor types.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains to boolean tensors.</dd>
+<dd>Constrain to boolean tensors.</dd>
 </dl>
 
 
@@ -5830,9 +5826,9 @@ Other versions of this operator: <a href="Changelog.md#Equal-1">1</a>, <a href="
 
 <dl>
 <dt><tt>T</tt> : tensor(bool), tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrains input types to all numeric tensors.</dd>
+<dd>Constrain input types to all numeric tensors.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -5994,7 +5990,7 @@ expect(node, inputs=[x], outputs=[y],
   Broadcast the input tensor following the given shape and the broadcast rule.
   The broadcast rule is similar to numpy.array(input) * numpy.ones(shape):
   Dimensions are right alignment;
-  Two corresponding dimension must have the same value, or one of them is equal to 1.
+  Two corresponding dimensions must have the same value, or one of them is equal to 1.
   Also, this operator is similar to numpy.broadcast_to(input, shape),
   but the major difference is numpy.broadcast_to() does not allow shape to be smaller than input.size().
   It is possible that the output.shape is not equal to shape, when some dimensions in shape is equal to 1,
@@ -7720,9 +7716,9 @@ Other versions of this operator: <a href="Changelog.md#Greater-1">1</a>, <a href
 
 <dl>
 <dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrains input types to all numeric tensors.</dd>
+<dd>Constrain input types to all numeric tensors.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -7841,9 +7837,9 @@ Other versions of this operator: <a href="Changelog.md#GreaterOrEqual-12">12</a>
 
 <dl>
 <dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrains input types to all numeric tensors.</dd>
+<dd>Constrain input types to all numeric tensors.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -9792,9 +9788,9 @@ Other versions of this operator: <a href="Changelog.md#Less-1">1</a>, <a href="C
 
 <dl>
 <dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrains input types to all numeric tensors.</dd>
+<dd>Constrain input types to all numeric tensors.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -9913,9 +9909,9 @@ Other versions of this operator: <a href="Changelog.md#LessOrEqual-12">12</a>
 
 <dl>
 <dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(bfloat16)</dt>
-<dd>Constrains input types to all numeric tensors.</dd>
+<dd>Constrain input types to all numeric tensors.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -13674,7 +13670,7 @@ This version of the operator has been available since version 1 of the default O
 
 <dl>
 <dt><tt>T</tt> : tensor(bool)</dt>
-<dd>Constrains input/output to boolean tensors.</dd>
+<dd>Constrain input/output to boolean tensors.</dd>
 </dl>
 
 
@@ -13766,9 +13762,9 @@ Other versions of this operator: <a href="Changelog.md#OneHot-9">9</a>
 
 <dl>
 <dt><tt>T1</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double)</dt>
-<dd>Constrains input to only numeric types.</dd>
+<dd>Constrain input to only numeric types.</dd>
 <dt><tt>T2</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double)</dt>
-<dd>Constrains input to only numeric types.</dd>
+<dd>Constrain input to only numeric types.</dd>
 <dt><tt>T3</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128)</dt>
 <dd>Constrain to any tensor type.</dd>
 </dl>
@@ -13916,9 +13912,9 @@ This version of the operator has been available since version 15 of the default 
 
 <dl>
 <dt><tt>V</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128), seq(tensor(uint8)), seq(tensor(uint16)), seq(tensor(uint32)), seq(tensor(uint64)), seq(tensor(int8)), seq(tensor(int16)), seq(tensor(int32)), seq(tensor(int64)), seq(tensor(float16)), seq(tensor(float)), seq(tensor(double)), seq(tensor(string)), seq(tensor(bool)), seq(tensor(complex64)), seq(tensor(complex128))</dt>
-<dd>Constrains input type to all tensor and sequence types.</dd>
+<dd>Constrain input type to all tensor and sequence types.</dd>
 <dt><tt>O</tt> : optional(seq(tensor(uint8))), optional(seq(tensor(uint16))), optional(seq(tensor(uint32))), optional(seq(tensor(uint64))), optional(seq(tensor(int8))), optional(seq(tensor(int16))), optional(seq(tensor(int32))), optional(seq(tensor(int64))), optional(seq(tensor(float16))), optional(seq(tensor(float))), optional(seq(tensor(double))), optional(seq(tensor(string))), optional(seq(tensor(bool))), optional(seq(tensor(complex64))), optional(seq(tensor(complex128))), optional(tensor(uint8)), optional(tensor(uint16)), optional(tensor(uint32)), optional(tensor(uint64)), optional(tensor(int8)), optional(tensor(int16)), optional(tensor(int32)), optional(tensor(int64)), optional(tensor(float16)), optional(tensor(float)), optional(tensor(double)), optional(tensor(string)), optional(tensor(bool)), optional(tensor(complex64)), optional(tensor(complex128))</dt>
-<dd>Constrains output type to all optional tensor or optional sequence types.</dd>
+<dd>Constrain output type to all optional tensor or optional sequence types.</dd>
 </dl>
 
 
@@ -13949,7 +13945,7 @@ This version of the operator has been available since version 15 of the default 
 
 <dl>
 <dt><tt>O</tt> : optional(seq(tensor(uint8))), optional(seq(tensor(uint16))), optional(seq(tensor(uint32))), optional(seq(tensor(uint64))), optional(seq(tensor(int8))), optional(seq(tensor(int16))), optional(seq(tensor(int32))), optional(seq(tensor(int64))), optional(seq(tensor(float16))), optional(seq(tensor(float))), optional(seq(tensor(double))), optional(seq(tensor(string))), optional(seq(tensor(bool))), optional(seq(tensor(complex64))), optional(seq(tensor(complex128))), optional(tensor(uint8)), optional(tensor(uint16)), optional(tensor(uint32)), optional(tensor(uint64)), optional(tensor(int8)), optional(tensor(int16)), optional(tensor(int32)), optional(tensor(int64)), optional(tensor(float16)), optional(tensor(float)), optional(tensor(double)), optional(tensor(string)), optional(tensor(bool)), optional(tensor(complex64)), optional(tensor(complex128))</dt>
-<dd>Constrains input type to optional tensor and optional sequence types.</dd>
+<dd>Constrain input type to optional tensor and optional sequence types.</dd>
 <dt><tt>V</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128), seq(tensor(uint8)), seq(tensor(uint16)), seq(tensor(uint32)), seq(tensor(uint64)), seq(tensor(int8)), seq(tensor(int16)), seq(tensor(int32)), seq(tensor(int64)), seq(tensor(float16)), seq(tensor(float)), seq(tensor(double)), seq(tensor(string)), seq(tensor(bool)), seq(tensor(complex64)), seq(tensor(complex128))</dt>
 <dd>Constrain output type to all tensor or sequence types.</dd>
 </dl>
@@ -13981,9 +13977,9 @@ This version of the operator has been available since version 15 of the default 
 
 <dl>
 <dt><tt>O</tt> : optional(seq(tensor(uint8))), optional(seq(tensor(uint16))), optional(seq(tensor(uint32))), optional(seq(tensor(uint64))), optional(seq(tensor(int8))), optional(seq(tensor(int16))), optional(seq(tensor(int32))), optional(seq(tensor(int64))), optional(seq(tensor(float16))), optional(seq(tensor(float))), optional(seq(tensor(double))), optional(seq(tensor(string))), optional(seq(tensor(bool))), optional(seq(tensor(complex64))), optional(seq(tensor(complex128))), optional(tensor(uint8)), optional(tensor(uint16)), optional(tensor(uint32)), optional(tensor(uint64)), optional(tensor(int8)), optional(tensor(int16)), optional(tensor(int32)), optional(tensor(int64)), optional(tensor(float16)), optional(tensor(float)), optional(tensor(double)), optional(tensor(string)), optional(tensor(bool)), optional(tensor(complex64)), optional(tensor(complex128))</dt>
-<dd>Constrains input type to optional tensor and optional sequence types.</dd>
+<dd>Constrain input type to optional tensor and optional sequence types.</dd>
 <dt><tt>B</tt> : tensor(bool)</dt>
-<dd>Constrains output to a boolean tensor.</dd>
+<dd>Constrain output to a boolean tensor.</dd>
 </dl>
 
 
@@ -14109,9 +14105,9 @@ Other versions of this operator: <a href="Changelog.md#Or-1">1</a>
 
 <dl>
 <dt><tt>T</tt> : tensor(bool)</dt>
-<dd>Constrains input to boolean tensor.</dd>
+<dd>Constrain input to boolean tensor.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
@@ -15580,11 +15576,11 @@ expect(node, inputs=[x], outputs=[y],
 
 ### <a name="ReduceL1"></a><a name="reducel1">**ReduceL1**</a>
 
-  Computes the L1 norm of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the L1 norm of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -15599,7 +15595,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceL1-1">1</a>, <a hre
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -15779,11 +15775,11 @@ expect(node, inputs=[data], outputs=[reduced],
 
 ### <a name="ReduceL2"></a><a name="reducel2">**ReduceL2**</a>
 
-  Computes the L2 norm of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the L2 norm of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -15798,7 +15794,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceL2-1">1</a>, <a hre
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -15991,11 +15987,11 @@ expect(node, inputs=[data], outputs=[reduced],
 
 ### <a name="ReduceLogSum"></a><a name="reducelogsum">**ReduceLogSum**</a>
 
-  Computes the log sum of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the log sum of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -16010,7 +16006,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceLogSum-1">1</a>, <a
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -16109,11 +16105,11 @@ expect(node, inputs=[data], outputs=[reduced],
 
 ### <a name="ReduceLogSumExp"></a><a name="reducelogsumexp">**ReduceLogSumExp**</a>
 
-  Computes the log sum exponent of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the log sum exponent of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -16128,7 +16124,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceLogSumExp-1">1</a>,
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -16320,11 +16316,11 @@ expect(node, inputs=[data], outputs=[reduced],
 
 ### <a name="ReduceMax"></a><a name="reducemax">**ReduceMax**</a>
 
-  Computes the max of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the max of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -16339,7 +16335,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceMax-1">1</a>, <a hr
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -16500,11 +16496,11 @@ expect(node, inputs=[data], outputs=[reduced], name='test_reduce_max_negative_ax
 
 ### <a name="ReduceMean"></a><a name="reducemean">**ReduceMean**</a>
 
-  Computes the mean of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the mean of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -16519,7 +16515,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceMean-1">1</a>, <a h
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -16681,11 +16677,11 @@ expect(node, inputs=[data], outputs=[reduced], name='test_reduce_mean_negative_a
 
 ### <a name="ReduceMin"></a><a name="reducemin">**ReduceMin**</a>
 
-  Computes the min of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the min of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -16700,7 +16696,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceMin-1">1</a>, <a hr
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -16860,11 +16856,11 @@ expect(node, inputs=[data], outputs=[reduced], name='test_reduce_min_negative_ax
 
 ### <a name="ReduceProd"></a><a name="reduceprod">**ReduceProd**</a>
 
-  Computes the product of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the product of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -16879,7 +16875,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceProd-1">1</a>, <a h
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -17037,11 +17033,11 @@ expect(node, inputs=[data], outputs=[reduced], name='test_reduce_prod_negative_a
 
 ### <a name="ReduceSum"></a><a name="reducesum">**ReduceSum**</a>
 
-  Computes the sum of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the sum of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -17054,7 +17050,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceSum-1">1</a>, <a hr
 
 <dl>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 <dt><tt>noop_with_empty_axes</tt> : int (default is 0)</dt>
 <dd>Defines behaviour if 'axes' is empty. Default behaviour with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.</dd>
 </dl>
@@ -17253,11 +17249,11 @@ expect(node, inputs=[data, axes], outputs=[reduced],
 
 ### <a name="ReduceSumSquare"></a><a name="reducesumsquare">**ReduceSumSquare**</a>
 
-  Computes the sum square of the input tensor's element along the provided axes. The resulted
-  tensor has the same rank as the input if keepdims equal 1. If keepdims equal 0, then
-  the resulted tensor have the reduced dimension pruned.
+  Computes the sum square of the input tensor's element along the provided axes. The resulting
+  tensor has the same rank as the input if keepdims equals 1. If keepdims equals 0, then
+  the resulting tensor has the reduced dimension pruned.
 
-  The above behavior is similar to numpy, with the exception that numpy default keepdims to
+  The above behavior is similar to numpy, with the exception that numpy defaults keepdims to
   False instead of True.
 
 #### Version
@@ -17272,7 +17268,7 @@ Other versions of this operator: <a href="Changelog.md#ReduceSumSquare-1">1</a>,
 <dt><tt>axes</tt> : list of ints</dt>
 <dd>A list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor. Accepted range is [-r, r-1] where r = rank(data).</dd>
 <dt><tt>keepdims</tt> : int (default is 1)</dt>
-<dd>Keep the reduced dimension or not, default 1 mean keep reduced dimension.</dd>
+<dd>Keep the reduced dimension or not, default 1 means keep reduced dimension.</dd>
 </dl>
 
 #### Inputs
@@ -18956,7 +18952,7 @@ This version of the operator has been available since version 16 of the default 
 
   Scan can be used to iterate over one or more scan_input tensors,
   constructing zero or more scan_output tensors. It combines ideas from general recurrences,
-  functional programming constructs such as scan, fold, map, and zip and is intended to enable
+  functional programming constructs such as scan, fold, map, and zip, and is intended to enable
   generalizations of RNN-like constructs for sequence-to-sequence processing.
   Other tensors (referred to as state_variables here) can be used to carry a state
   when iterating from one element to another (similar to hidden-state in RNNs, also referred
@@ -20123,6 +20119,326 @@ This version of the operator has been available since version 11 of the default 
 </dl>
 
 
+### <a name="SequenceMap"></a><a name="sequencemap">**SequenceMap**</a>
+
+  Applies a sub-graph to each sample in the input sequence(s).
+
+  Inputs can be either tensors or sequences, with the exception of the first input which must
+  be a sequence. The length of the first input sequence will determine the number of samples in the
+  outputs. Any other sequence inputs should have the same number of samples. The number of inputs
+  and outputs, should match the one of the subgraph.
+
+  For each i-th element in the output, a sample will be extracted from the input sequence(s) at
+  the i-th position and the sub-graph will be applied to it.
+  The outputs will contain the outputs of the sub-graph for each sample, in the same order as in
+  the input.
+
+  This operator assumes that processing each sample is independent and could executed in parallel
+  or in any order. Users cannot expect any specific ordering in which each subgraph is computed.
+
+#### Version
+
+This version of the operator has been available since version 16 of the default ONNX operator set.
+
+#### Attributes
+
+<dl>
+<dt><tt>body</tt> : graph (required)</dt>
+<dd>The graph to be run for each sample in the sequence(s). It should have as many inputs and outputs as inputs and outputs to the SequenceMap function.</dd>
+</dl>
+
+#### Inputs (1 - &#8734;)
+
+<dl>
+<dt><tt>input_sequence</tt> : S</dt>
+<dd>Input sequence.</dd>
+<dt><tt>additional_inputs</tt> (variadic, heterogeneous) : V</dt>
+<dd>Additional inputs to the graph</dd>
+</dl>
+
+#### Outputs (1 - &#8734;)
+
+<dl>
+<dt><tt>out_sequence</tt> (variadic, heterogeneous) : S</dt>
+<dd>Output sequence(s)</dd>
+</dl>
+
+#### Type Constraints
+
+<dl>
+<dt><tt>S</tt> : seq(tensor(uint8)), seq(tensor(uint16)), seq(tensor(uint32)), seq(tensor(uint64)), seq(tensor(int8)), seq(tensor(int16)), seq(tensor(int32)), seq(tensor(int64)), seq(tensor(float16)), seq(tensor(float)), seq(tensor(double)), seq(tensor(string)), seq(tensor(bool)), seq(tensor(complex64)), seq(tensor(complex128))</dt>
+<dd>Constrain input types to any sequence type.</dd>
+<dt><tt>V</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double), tensor(string), tensor(bool), tensor(complex64), tensor(complex128), seq(tensor(uint8)), seq(tensor(uint16)), seq(tensor(uint32)), seq(tensor(uint64)), seq(tensor(int8)), seq(tensor(int16)), seq(tensor(int32)), seq(tensor(int64)), seq(tensor(float16)), seq(tensor(float)), seq(tensor(double)), seq(tensor(string)), seq(tensor(bool)), seq(tensor(complex64)), seq(tensor(complex128))</dt>
+<dd>Constrain to any tensor or sequence type.</dd>
+</dl>
+
+
+#### Examples
+
+<details>
+<summary>sequence_map_add_1_sequence_1_tensor</summary>
+
+```python
+body = onnx.helper.make_graph(
+    [onnx.helper.make_node('Add', ['in0', 'in1'], ['out0'])],
+    'seq_map_body',
+    [onnx.helper.make_tensor_value_info('in0', onnx.TensorProto.FLOAT, ['N']),
+     onnx.helper.make_tensor_value_info('in1', onnx.TensorProto.FLOAT, ['N'])],
+    [onnx.helper.make_tensor_value_info(
+        'out0', onnx.TensorProto.FLOAT, ['N'])]
+)
+
+node = onnx.helper.make_node(
+    'SequenceMap',
+    inputs=['x0', 'x1'],
+    outputs=['y0'],
+    body=body
+)
+
+x0 = [np.random.uniform(0.0, 1.0, 10).astype(np.float32) for k in range(3)]
+x1 = np.random.uniform(0.0, 1.0, 10).astype(np.float32)
+y0 = [x0[i] + x1 for i in range(3)]
+input_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+    onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N']),
+]
+output_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+]
+expect(node, inputs=[x0, x1], outputs=[y0],
+       input_type_protos=input_type_protos,
+       output_type_protos=output_type_protos,
+       name='test_sequence_map_add_1_sequence_1_tensor')
+```
+
+</details>
+
+
+<details>
+<summary>sequence_map_add_2_sequences</summary>
+
+```python
+body = onnx.helper.make_graph(
+    [onnx.helper.make_node('Add', ['in0', 'in1'], ['out0'])],
+    'seq_map_body',
+    [onnx.helper.make_tensor_value_info('in0', onnx.TensorProto.FLOAT, ['N']),
+     onnx.helper.make_tensor_value_info('in1', onnx.TensorProto.FLOAT, ['N'])],
+    [onnx.helper.make_tensor_value_info(
+        'out0', onnx.TensorProto.FLOAT, ['N'])]
+)
+
+node = onnx.helper.make_node(
+    'SequenceMap',
+    inputs=['x0', 'x1'],
+    outputs=['y0'],
+    body=body
+)
+
+N = [np.random.randint(1, 10) for _ in range(3)]
+x0 = [np.random.uniform(0.0, 1.0, N[k]).astype(np.float32)
+      for k in range(3)]
+x1 = [np.random.uniform(0.0, 1.0, N[k]).astype(np.float32)
+      for k in range(3)]
+y0 = [x0[k] + x1[k] for k in range(3)]
+input_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+]
+output_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+]
+expect(node, inputs=[x0, x1], outputs=[y0],
+       input_type_protos=input_type_protos,
+       output_type_protos=output_type_protos,
+       name='test_sequence_map_add_2_sequences')
+```
+
+</details>
+
+
+<details>
+<summary>sequence_map_extract_shapes</summary>
+
+```python
+body = onnx.helper.make_graph(
+    [onnx.helper.make_node('Shape', ['x'], ['shape'])],
+    'seq_map_body',
+    [onnx.helper.make_tensor_value_info('x', onnx.TensorProto.FLOAT, ['H', 'W', 'C'])],
+    [onnx.helper.make_tensor_value_info('shape', onnx.TensorProto.INT64, [3])]
+)
+
+node = onnx.helper.make_node(
+    'SequenceMap',
+    inputs=['in_seq'],
+    outputs=['shapes'],
+    body=body
+)
+
+shapes = [
+    np.array([40, 30, 3], dtype=np.int64),
+    np.array([20, 10, 3], dtype=np.int64),
+    np.array([10, 5, 3], dtype=np.int64),
+]
+x0 = [np.zeros(shape, dtype=np.float32) for shape in shapes]
+input_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['H', 'W', 'C'])),
+]
+output_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.INT64, [3])),
+]
+expect(node, inputs=[x0], outputs=[shapes],
+       input_type_protos=input_type_protos,
+       output_type_protos=output_type_protos,
+       name='test_sequence_map_extract_shapes')
+```
+
+</details>
+
+
+<details>
+<summary>sequence_map_identity_1_sequence</summary>
+
+```python
+body = onnx.helper.make_graph(
+    [onnx.helper.make_node('Identity', ['in0'], ['out0'])],
+    'seq_map_body',
+    [onnx.helper.make_tensor_value_info(
+        'in0', onnx.TensorProto.FLOAT, ['N'])],
+    [onnx.helper.make_tensor_value_info(
+        'out0', onnx.TensorProto.FLOAT, ['M'])]
+)
+
+node = onnx.helper.make_node(
+    'SequenceMap',
+    inputs=['x'],
+    outputs=['y'],
+    body=body
+)
+
+x = [np.random.uniform(0.0, 1.0, 10).astype(np.float32)
+     for _ in range(3)]
+y = x
+input_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+]
+output_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+]
+expect(node, inputs=[x], outputs=[y],
+       input_type_protos=input_type_protos,
+       output_type_protos=output_type_protos,
+       name='test_sequence_map_identity_1_sequence')
+```
+
+</details>
+
+
+<details>
+<summary>sequence_map_identity_1_sequence_1_tensor</summary>
+
+```python
+body = onnx.helper.make_graph(
+    [onnx.helper.make_node('Identity', ['in0'], ['out0']),
+     onnx.helper.make_node('Identity', ['in1'], ['out1'])],
+    'seq_map_body',
+    [onnx.helper.make_tensor_value_info('in0', onnx.TensorProto.FLOAT, ['N']),
+     onnx.helper.make_tensor_value_info('in1', onnx.TensorProto.FLOAT, ['M'])],
+    [onnx.helper.make_tensor_value_info(
+        'out0', onnx.TensorProto.FLOAT, ['N']),
+     onnx.helper.make_tensor_value_info(
+        'out1', onnx.TensorProto.FLOAT, ['M'])]
+)
+
+node = onnx.helper.make_node(
+    'SequenceMap',
+    inputs=['x0', 'x1'],
+    outputs=['y0', 'y1'],
+    body=body
+)
+
+x0 = [np.random.uniform(0.0, 1.0, np.random.randint(
+    1, 10)).astype(np.float32) for _ in range(3)]
+x1 = np.random.uniform(0.0, 1.0, np.random.randint(
+    1, 10)).astype(np.float32)
+y0 = x0
+y1 = [x1 for _ in range(3)]
+input_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+    onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['M']),
+]
+output_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['M'])),
+]
+expect(node, inputs=[x0, x1], outputs=[y0, y1],
+       input_type_protos=input_type_protos,
+       output_type_protos=output_type_protos,
+       name='test_sequence_map_identity_1_sequence_1_tensor')
+```
+
+</details>
+
+
+<details>
+<summary>sequence_map_identity_2_sequences</summary>
+
+```python
+body = onnx.helper.make_graph(
+    [onnx.helper.make_node('Identity', ['in0'], ['out0']),
+     onnx.helper.make_node('Identity', ['in1'], ['out1'])],
+    'seq_map_body',
+    [onnx.helper.make_tensor_value_info('in0', onnx.TensorProto.FLOAT, ['N']),
+     onnx.helper.make_tensor_value_info('in1', onnx.TensorProto.FLOAT, ['M'])],
+    [onnx.helper.make_tensor_value_info('out0', onnx.TensorProto.FLOAT, ['N']),
+     onnx.helper.make_tensor_value_info('out1', onnx.TensorProto.FLOAT, ['M'])]
+)
+
+node = onnx.helper.make_node(
+    'SequenceMap',
+    inputs=['x0', 'x1'],
+    outputs=['y0', 'y1'],
+    body=body
+)
+
+x0 = [np.random.uniform(0.0, 1.0, np.random.randint(
+    1, 10)).astype(np.float32) for _ in range(3)]
+x1 = [np.random.uniform(0.0, 1.0, np.random.randint(
+    1, 10)).astype(np.float32) for _ in range(3)]
+y0 = x0
+y1 = x1
+input_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['M'])),
+]
+output_type_protos = [
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['N'])),
+    onnx.helper.make_sequence_type_proto(
+        onnx.helper.make_tensor_type_proto(onnx.TensorProto.FLOAT, ['M'])),
+]
+expect(node, inputs=[x0, x1], outputs=[y0, y1],
+       input_type_protos=input_type_protos,
+       output_type_protos=output_type_protos,
+       name='test_sequence_map_identity_2_sequences')
+```
+
+</details>
+
+
 ### <a name="Shape"></a><a name="shape">**Shape**</a>
 
   Takes a tensor as input and outputs an 1D int64 tensor containing the shape of the input tensor.
@@ -20131,7 +20447,7 @@ This version of the operator has been available since version 11 of the default 
   The end axis, if specified, is exclusive (and the returned value will not include the size of that axis).
   If the end axis is omitted, the axes upto the last one will be included.
   Negative axes indicate counting back from the last axis.
-  Note that axes will be clipped to the range [0, r-1], where r is the
+  Note that axes will be clamped to the range [0, r-1], where r is the
   rank of the input tensor if they are out-of-range (after adding r in the case of
   negative axis). Thus, specifying any end value > r is equivalent to specifying an end
   value of r, and specifying any start value < -r is equivalent to specifying a start
@@ -20268,7 +20584,7 @@ This version of the operator has been available since version 9 of the default O
 
 <dl>
 <dt><tt>T</tt> : tensor(uint8), tensor(uint16), tensor(uint32), tensor(uint64), tensor(int8), tensor(int16), tensor(int32), tensor(int64), tensor(float16), tensor(float), tensor(double)</dt>
-<dd>Constrains input to only numeric types.</dd>
+<dd>Constrain input to only numeric types.</dd>
 </dl>
 
 
@@ -20607,19 +20923,37 @@ expect(node, inputs=[x], outputs=[y],
 ### <a name="Slice"></a><a name="slice">**Slice**</a>
 
   Produces a slice of the input tensor along multiple axes. Similar to numpy:
-  https://docs.scipy.org/doc/numpy/reference/arrays.indexing.html
-  Slices uses `starts`, `ends`, `axes` and `steps` inputs to specify the start and end
-  dimension and step for each axis in the list of axes, it uses this information to
-  slice the input `data` tensor. If a negative value is passed for any of the
-  start or end indices, it represents number of elements before the end of that
-  dimension. If the value passed to start or end is larger than the `n` (the
-  number of elements in this dimension), it represents `n`. For slicing to the
-  end of a dimension with unknown size, it is recommended to pass in `INT_MAX`
-  when sclicing forward and 'INT_MIN' when slicing backward.
-  If a negative value is passed for step, it represents slicing backward.
-  However step value cannot be 0.
-  If `axes` are omitted, they are set to `[0, ..., ndim-1]`.
+  https://numpy.org/doc/stable/user/basics.indexing.html?highlight=slice#slicing-and-striding
+
+  Slice uses the `starts`, `ends`, `axes` and `steps` inputs to select a sub-tensor
+  of its input `data` tensor.
+
+  An effective `start[i]`, `end[i]`, and `step[i]` must be computed for each `i`
+  in `[0, ... r-1]` where `r = rank(input)` as follows:
+
+  If `axes` are omitted, they are set to `[0, ..., r-1]`.
   If `steps` are omitted, they are set to `[1, ..., 1]` of length `len(starts)`
+
+  The effective values are initialized as `start[i] = 0`, `end[i] = dims[i]` where
+  `dims` are the dimensions of `input` and `step[i] = `1.
+
+  All negative elements of `axes` are made non-negatve by adding `r` to them, where
+  `r =rank(input)`.
+
+  All negative values in `starts[i]` and `ends[i]` have `dims[axes[i]]` added to them,
+  where `dims` are the dimensions of `input`. Then `start[axes[i]]` is the adjusted
+  `starts[i]` clamped into range of valid indices, i.e. `[0, dims[axes[i]]-1]`.
+
+  The clamping for the adjusted `ends[i]` depends on the sign of `steps[i]` and must
+  accommodate copying 0 through `dims[axes[i]]` elements, so for positive stepping
+  `end[axes[i]]` is clamped to `[0, dims[axes[i]]]`, while for negative stepping it
+  is clamped to `[-1, ends[i]-1]`.
+
+  Finally, `step[axes[i]] = steps[i]`.
+
+  For slicing to the end of a dimension with unknown size, it is recommended to pass
+  in `INT_MAX` when slicing forward and 'INT_MIN' when slicing backward.
+
   Example 1:
     data = [
         [1, 2, 3, 4],
@@ -20659,9 +20993,9 @@ Other versions of this operator: <a href="Changelog.md#Slice-1">1</a>, <a href="
 <dt><tt>ends</tt> (non-differentiable) : Tind</dt>
 <dd>1-D tensor of ending indices (exclusive) of corresponding axis in `axes`</dd>
 <dt><tt>axes</tt> (optional, non-differentiable) : Tind</dt>
-<dd>1-D tensor of axes that `starts` and `ends` apply to. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(data).</dd>
+<dd>1-D tensor of axes that `starts` and `ends` apply to. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(data). Behavior is undefined if an axis is repeated.</dd>
 <dt><tt>steps</tt> (optional, non-differentiable) : Tind</dt>
-<dd>1-D tensor of slice step of corresponding axis in `axes`. Negative value means slicing backward. 'steps' cannot be 0. Defaults to 1.</dd>
+<dd>1-D tensor of slice step of corresponding axis in `axes`. Negative value means slicing backward. 'steps' cannot be 0. Defaults to 1s.</dd>
 </dl>
 
 #### Outputs
@@ -23542,7 +23876,7 @@ Other versions of this operator: <a href="Changelog.md#Tile-1">1</a>, <a href="C
 
 <dl>
 <dt><tt>output</tt> (differentiable) : T</dt>
-<dd>Output tensor of the same dimension and type as tensor input. output_dim[i] = input_dim[i] * repeats[i]</dd>
+<dd>Output tensor of the same dimensions and type as tensor input. output_dim[i] = input_dim[i] * repeats[i]</dd>
 </dl>
 
 #### Type Constraints
@@ -25081,9 +25415,9 @@ Other versions of this operator: <a href="Changelog.md#Xor-1">1</a>
 
 <dl>
 <dt><tt>T</tt> : tensor(bool)</dt>
-<dd>Constrains input to boolean tensor.</dd>
+<dd>Constrain input to boolean tensor.</dd>
 <dt><tt>T1</tt> : tensor(bool)</dt>
-<dd>Constrains output to boolean tensor.</dd>
+<dd>Constrain output to boolean tensor.</dd>
 </dl>
 
 
