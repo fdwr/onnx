@@ -6,6 +6,8 @@ import string
 import numpy as np  # type: ignore
 import unittest
 
+import time
+
 #####################################################################################
 # Every test creates a model containing a single operator from the lowest possible
 # opset version, upgrades it to the most recent opset version and then runs checker +
@@ -1095,11 +1097,10 @@ class TestAutomaticUpgrade(unittest.TestCase):
         frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
         self._test_op_upgrade(operator_name,
                               16,
-                              [[2, 64], [1]],
-                              [[2, 16, 2]],
+                              [[2, 64], [1], [16]],
+                              [[2, 7, 16, 2]],
                               [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
-                              initializer=[signal, frame_step],
-                              optional_inputs=[window])
+                              initializer=[signal, frame_step, window])
 
         # Real Onesided
         signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64], vals=np.random.rand(2, 64).astype(np.float32))
@@ -1108,27 +1109,11 @@ class TestAutomaticUpgrade(unittest.TestCase):
         frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
         self._test_op_upgrade(operator_name,
                               16,
-                              [[2, 64], [1]],
-                              [[2, 16, 2]],
+                              [[2, 64], [1], [16]],
+                              [[2, 7, 9, 2]],
                               [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
                               attrs={'onesided': 1},
-                              initializer=[signal, frame_step],
-                              optional_inputs=[window])
-
-        # Complex Onesided
-        signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64, 2], vals=np.random.rand(2, 64, 2).astype(np.float32))
-        frame_step   = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([8]))    
-        window       = helper.make_tensor('c', TensorProto.FLOAT, dims=[16], vals=np.ones(16).astype(np.float32))
-        frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
-        self._test_op_upgrade(operator_name,
-                              16,
-                              [[2, 64, 2], [1]],
-                              [[2, 16, 2]],
-                              [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
-                              attrs={'onesided': 1},
-                              initializer=[signal, frame_step],
-                              optional_inputs=[window])
-
+                              initializer=[signal, frame_step, window])
 
         # Complex
         signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64, 2], vals=np.random.rand(2, 64, 2).astype(np.float32))
@@ -1137,11 +1122,23 @@ class TestAutomaticUpgrade(unittest.TestCase):
         frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
         self._test_op_upgrade(operator_name,
                               16,
-                              [[2, 64, 2], [1]],
-                              [[2, 16, 2]],
+                              [[2, 64, 2], [1], [16]],
+                              [[2, 7, 16, 2]],
                               [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
-                              initializer=[signal, frame_step],
-                              optional_inputs=[window])
+                              initializer=[signal, frame_step, window])
+                              
+        # Complex Onesided
+        signal       = helper.make_tensor('a', TensorProto.FLOAT, dims=[2, 64, 2], vals=np.random.rand(2, 64, 2).astype(np.float32))
+        frame_step   = helper.make_tensor('b', TensorProto.INT64, dims=[1], vals=np.array([8]))    
+        window       = helper.make_tensor('c', TensorProto.FLOAT, dims=[16], vals=np.ones(16).astype(np.float32))
+        frame_length = helper.make_tensor('d', TensorProto.INT64, dims=[1], vals=np.array([16]))      
+        self._test_op_upgrade(operator_name,
+                              16,
+                              [[2, 64, 2], [1], [16]],
+                              [[2, 7, 9, 2]],
+                              [TensorProto.FLOAT, TensorProto.INT64, TensorProto.FLOAT, TensorProto.INT64],
+                              attrs={'onesided': 1},
+                              initializer=[signal, frame_step, window])
 
     def test_STFT(self) -> None:
         self._test_short_time_fourier_transform('STFT')
